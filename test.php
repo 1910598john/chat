@@ -22,16 +22,15 @@ $both_convo2 = $chosen.$user;
 $sql = "CREATE TABLE ".$both_convo2." (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   message VARCHAR(255) NOT NULL,
-  sentby VARCHAR(30) NOT NULL)";
+  sentby VARCHAR(30) NOT NULL,
+  sentto VARCHAR(30) NOT NULL)";
 
 
 
 if ($conn->query($sql) === TRUE ) {
-    header('location: chat.php');
+    
 }
-else {
-    header('location: chat.php');
-}
+
 
 $conn->close();
 ?>

@@ -21,8 +21,8 @@ $user = $_SESSION['username'];
 
 $both_convo2 = $chosen.$user;
 
-$sql = "INSERT INTO ".$both_convo2."(message, sentby)
-VALUES('$message', '$user');";
+$sql = "INSERT INTO ".$both_convo2."(message, sentby, sentto)
+VALUES('$message', '$user', '$chosen')";
 
 
 if ($conn->query($sql) === TRUE ) {

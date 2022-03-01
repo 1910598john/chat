@@ -31,16 +31,5 @@ else {
   echo '<script>alert("Wrong credentials");</script>';
 }
 
-/*
-while ($row = $result->fetch_assoc()){
-    if ($row['password'] == $password && $row['username'] == $username) {
-      $_SESSION['user'] = $row['name'];
-      $_SESSION['username'] = $row['username'];
-      echo '<script>window.open("active.php", "_self");</script>';
-    }
-    else {
-      echo '<script>alert("wrong credentials");window.open("index.php", "_self");</script>';
-    }
-} */
 
 ?>

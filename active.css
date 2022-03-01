@@ -36,6 +36,11 @@ body{
     top: 7%;
     right: 10%;
 }
+#refresh{
+    position: absolute;
+    top: 7%;
+    left: 10%;
+}
 .inner{
     display: flex;
 }

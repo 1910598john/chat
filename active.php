@@ -39,7 +39,7 @@ if ($conn->connect_error) {
             <div class="container" id="container">
             <?php
 
-            $sql = "SELECT name, status from Names";
+            $sql = "SELECT name, username, status from Names";
             $res = $conn->query($sql);
 
             while ($row = $res->fetch_assoc()) {
@@ -47,12 +47,14 @@ if ($conn->connect_error) {
                     if ($row['status'] == 'online') {
                         echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">
                             <div class="user" style="color:#fff;">'.$row["name"].'</div>
+                            <div class="username" style="color:#fff;display:none;">'.$row["username"].'</div>
                             <div class="status-wrapper"><span style="color:#0da33d;">'.$row['status'].'</span></div>
                         </div>';
                     }
                     else {
                         echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">
                             <div class="user" style="color:#fff;">'.$row["name"].'</div>
+                            <div class="username" style="color:#fff;display:none;">'.$row["username"].'</div>
                             <div class="status-wrapper"><span style="color:#b0463a;">'.$row['status'].'</span></div>
                         </div>';
                     }

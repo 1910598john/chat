@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 
 $chosen = $_POST['user'];
 $_SESSION['chosen'] = $_POST['user'];
-$user = $_SESSION['user'];
+$user = $_SESSION['username'];
 
 $both_convo = $user.$chosen;
 

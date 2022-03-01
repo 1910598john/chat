@@ -18,7 +18,7 @@ $message = $_POST['message'];
 $_SESSION['message'] = $_POST['message'];
 $chosen = $_POST['user'];
 $_SESSION['chosen'] = $_POST['user'];
-$user = $_SESSION['user'];
+$user = $_SESSION['username'];
 
 $both_convo = $user.$chosen;
 $both_convo2 = $chosen.$user;

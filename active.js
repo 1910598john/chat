@@ -1,5 +1,5 @@
 $(".user-container").click(function(){
-    var user = $(this).children("div.user").html();
+    var user = $(this).children("div.username").html();
     localStorage.setItem("user", user);
     $.ajax({
         type: 'POST',

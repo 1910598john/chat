@@ -47,6 +47,7 @@ document.getElementById("login-confirm").addEventListener("click", function(){
         alert("Input fields must be filled out.");
     }
     else {
+        localStorage.setItem("username", username);
         $.ajax({
             type: 'POST',
             url: 'auth.php',

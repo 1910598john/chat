@@ -19,7 +19,6 @@ document.getElementById("user-container").addEventListener("click", function(){
             <input type="text" id="input" placeholder="Say something.." style="padding:7px 5px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
         </div>
     </div>`)
-    scr();
     function scr() {
         $.ajax({
             type: 'POST',
@@ -55,7 +54,7 @@ document.getElementById("user-container").addEventListener("click", function(){
             document.getElementById("message-wrapper").innerHTML = this.responseText;
         }
         req.open("GET", "retrieve.php");
-        req.send(); 
+        req.send();
     }, 100);
     
     document.getElementById("return").addEventListener("click", function(){
@@ -95,3 +94,5 @@ function load(){
 document.getElementById("refresh").addEventListener("click", function(){
     location.reload();
 })
+
+

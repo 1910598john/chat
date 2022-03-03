@@ -48,14 +48,18 @@ document.getElementById("user-container").addEventListener("click", function(){
         }
     })
     
-    setInterval(() => {
-        var req = new XMLHttpRequest();
-        req.onload = function(){
-            document.getElementById("message-wrapper").innerHTML = this.responseText;
-        }
-        req.open("GET", "retrieve.php");
-        req.send();
-    }, 100);
+    function test(){
+        scr();
+        setInterval(() => {
+            var req = new XMLHttpRequest();
+            req.onload = function(){
+                document.getElementById("message-wrapper").innerHTML = this.responseText;
+            }
+            req.open("GET", "retrieve.php");
+            req.send();
+        }, 100);
+    }
+    test();
     
     document.getElementById("return").addEventListener("click", function(){
         $(".chat-wrapper").remove();   

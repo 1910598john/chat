@@ -33,10 +33,10 @@ VALUES('$message', '$user', '$chosen')";
 
 
 if ($conn->query($sql) === TRUE ) {
-    header('location: store.php');
+  header('location: store.php');
 }
 else {
-    header('location: store.php');
+  header('location: store.php');
 }
 
 

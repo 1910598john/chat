@@ -14,7 +14,10 @@ $(".user-container").click(function(){
             <div class="image" style=";width:50px;height:50px;;text-align:center;position:absolute;transform:translateX(-50%);left:50%;"><img style="width:100%;border-radius:50%;height:100%;object-fit:cover;" src="images/blank_avatar.png"></div>
             <div class="name" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);"><span>${name}</span></div>
         </div>
-        <div id="message-wrapper" style="padding: 0 0 40px 0;position:absolute;bottom:50px;width:calc(100% - 40px);max-height:calc(100% - 120px);overflow-y:scroll;"></div>
+        <div id="message-wrapper" style="padding: 0 0 40px 0;position:absolute;bottom:50px;width:calc(100% - 40px);max-height:calc(100% - 120px);overflow-y:scroll;">
+            
+        </div>
+        <div id="scroll-down" style="position: absolute;bottom:70px;left:50%;transformX(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-down" style="color:#000;font-size:1.2em;"></i></div>
         <div class="user-input" style="border-radius:0 0 15px 15px;z-index:10;background:#fff;position:absolute;bottom:0;left:0;width:100%;height:50px;">
             <input type="text" id="input" placeholder="Say something.." style="padding:7px 5px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
         </div>
@@ -30,6 +33,16 @@ $(".user-container").click(function(){
         })
     }
     
+    document.getElementById("scroll-down").addEventListener("click", function(){
+        $.ajax({
+            type: 'POST',
+            url: 'get_last_id.php',
+            success: function(response){
+                let id = parseInt(response);
+                document.getElementById("message" + id).scrollIntoView();
+            }
+        })
+    })
 
     document.getElementById("input").addEventListener("keypress", function(event){
         if (event.keyCode === 13) {
@@ -42,7 +55,16 @@ $(".user-container").click(function(){
                     message : message,
                     user : user
                 },
-                //
+                success: function(){
+                    $.ajax({
+                        type: 'POST',
+                        url: 'messages.php',
+                        data: {
+                            message: message,
+                            user: user
+                        }
+                    })
+                }
             })
             document.getElementById("input").value = "";
             scr();
@@ -103,11 +125,10 @@ document.getElementById("refresh").addEventListener("click", function(){
 
 setInterval(function(){
     let req = new XMLHttpRequest();
-    req.onload = function(){
+    req.onload = function() {
         document.getElementById("div").innerHTML = this.responseText;
     }
     req.open("GET", "new_message.php");
     req.send();
-
-}, 100);
+}, 100)
 

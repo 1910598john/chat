@@ -3,7 +3,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = 'convos';
+$database = 'users';
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
@@ -12,36 +12,23 @@ $conn = new mysqli($servername, $username, $password, $database);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-$chosen = null;
-$user = null;
-$convo = null;
-$lastid = null;
-$id = null;
 
-if (isset($_SESSION['chosen'])) {
-    $chosen = $_SESSION['chosen'];
-    $user = $_SESSION['username'];
-    $convo = $chosen.$user;
-    $lastid = $_SESSION['lastId'];
-    $id = 0;
-}
+$id = 0;
 
-if (isset($_SESSION['msg'])) {
-    $id = intval($_SESSION['msg']);
-}
-
-
-
-
-$sql = "SELECT sentto FROM ".$convo. " WHERE id = ".$lastid;
+$sql = "SELECT sentby, sentto FROM Messages";
 $res = $conn->query($sql);
-
-if (!empty($res) && $res->num_rows > 0) {
-    $row = $res->fetch_assoc();
-    if ($row['sentto'] == $user) {
-        echo 'You have a message';
+if (!(empty($res))) {
+    while ($row = $res->fetch_assoc()) {
+        if ($row['sentto'] == $_SESSION['username']) {
+            $id += 1;
+            $_SESSION['sentby'] = $row['sentby'];
+        }
     }
+    $_SESSION['newmessages'] = $id;
+    echo 'You have '.$id.' message from '.$_SESSION['sentby'];
 }
+
+
 
 $conn->close();
 ?>

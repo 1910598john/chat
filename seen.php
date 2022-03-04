@@ -1,11 +1,6 @@
 <?php
-
 session_start();
-
-$id = intval($_SESSION['id']);
-
+$id = intval($_SESSION['newmessages']);
 $id = 0;
-
-$_SESSION['id'] = $id;
-
+$_SESSION['newmessages'] = $id;
 ?>

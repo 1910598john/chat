@@ -14,18 +14,23 @@ if ($conn->connect_error) {
 }
 
 $id = 0;
+$arr = array();
+$newarr = null;
+$to = null;
 
 $sql = "SELECT sentby, sentto FROM Messages";
 $res = $conn->query($sql);
 if (!(empty($res))) {
     while ($row = $res->fetch_assoc()) {
         if ($row['sentto'] == $_SESSION['username']) {
-            $id += 1;
-            $_SESSION['sentby'] = $row['sentby'];
+            array_push($arr, $row['sentto']);
+            $newarr = array_unique($arr);
+            for($x = 0; $x < count($newarr); $x++) {
+                $id += 1;
+            }
         }
     }
-    $_SESSION['newmessages'] = $id;
-    echo 'You have '.$id.' message from '.$_SESSION['sentby'];
+    echo $id;
 }
 
 

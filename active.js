@@ -122,13 +122,38 @@ document.getElementById("refresh").addEventListener("click", function(){
     location.reload();
 })
 
+setInterval(() => {
+    $.ajax({
+        type: 'POST',
+        url: 'new_message.php',
+        success: function(res){
+            let x = parseInt(res);
+            if (x > 0) {
+                $("#message-notif").css("display", "block");
+            }
+            else {
+                $("#message-notif").css("display", "none");
+            }
+        }
+    })
+}, 100);
 
-setInterval(function(){
-    let req = new XMLHttpRequest();
-    req.onload = function() {
-        document.getElementById("div").innerHTML = this.responseText;
+var interv;
+function start_notification(){
+    interv = setInterval(new_messages, 100);
+    function new_messages(){
+        let req = new XMLHttpRequest();
+        req.onload = function(){
+            document.getElementById("message-notif").innerHTML = this.responseText;
+        }
+        req.open("GET", "new_message.php");
+        req.send();
     }
-    req.open("GET", "new_message.php");
-    req.send();
-}, 100)
+}
 
+start_notification();
+
+document.getElementById("div").addEventListener("click", function(){
+    document.getElementById("div").innerHTML = "You have 0 message(s)";
+    clearInterval(interv);
+})

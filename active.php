@@ -18,9 +18,7 @@
             <div class="inner">
                 <div class="online active-people" id="active">ACTIVE</div>
                 <div class="message-tab" id="message-tab" style="position:relative">
-                    
-                    <i class="fa-brands fa-facebook-messenger" style="position:absolute;color:rgb(51, 50, 50);font-size:1.8em;top:50%;left:50%;transform:translate(-50%,-50%);"><div id="message-notif" style="display:none;border-radius:50%;background:red;position:absolute;left:60%;bottom:60%;font-size:11px;width:17px;height:17px;padding:2px 4px;border:2px solid rgb(202, 201, 201);color:rgb(202, 201, 201);">1</div></i>
-                        
+                    <i class="fa-brands fa-facebook-messenger" style="position:absolute;color:rgb(51, 50, 50);font-size:1.8em;top:50%;left:50%;transform:translate(-50%,-50%);"><div id="message-notif" style="display:none;border-radius:50%;background:red;position:absolute;left:60%;bottom:60%;font-size:11px;width:17px;height:17px;padding:2px 4px;border:2px solid rgb(202, 201, 201);color:rgb(202, 201, 201);">0</div></i>
                 </div>
             </div>
             <div class="container" id="container">
@@ -36,7 +34,7 @@
 
             // Check connection
             if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+                die("Connection failed: " . $conn->connect_error);
             }
 
 

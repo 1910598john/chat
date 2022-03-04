@@ -24,6 +24,8 @@ $res = $conn->query($sql);
 $alignment = null;
 $bgc = null;
 $font_color = null;
+
+
 if (!empty($res) && $res->num_rows > 0) {
     while ($row = $res->fetch_assoc()) {
         if ($row['sentby'] == $chosen) {

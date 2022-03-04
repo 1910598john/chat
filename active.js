@@ -1,4 +1,4 @@
-document.getElementById("user-container").addEventListener("click", function(){
+$(".user-container").click(function(){
     var user = $(this).children("div.username").html();
     var name = $(this).children("div.user").html();
     localStorage.setItem("user", user);
@@ -41,7 +41,8 @@ document.getElementById("user-container").addEventListener("click", function(){
                 data: { 
                     message : message,
                     user : user
-                }
+                },
+                //
             })
             document.getElementById("input").value = "";
             scr();
@@ -99,4 +100,14 @@ document.getElementById("refresh").addEventListener("click", function(){
     location.reload();
 })
 
+
+setInterval(function(){
+    let req = new XMLHttpRequest();
+    req.onload = function(){
+        document.getElementById("div").innerHTML = this.responseText;
+    }
+    req.open("GET", "new_message.php");
+    req.send();
+
+}, 100);
 

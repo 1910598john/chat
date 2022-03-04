@@ -44,7 +44,7 @@ body{
 .inner{
     display: flex;
 }
-.inner div{
+.inner .active-people, .inner .message-tab{
     width: 50%;
     text-align: center;
     padding: 15px 0;
@@ -68,3 +68,4 @@ body{
 .user-container:hover{
     background: rgb(129, 125, 125);
 }
+

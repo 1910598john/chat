@@ -1,5 +1,10 @@
 <?php
 session_start();
+$id = $_SESSION['id'];
+
+$id += 1;
+
+$_SESSION['id'] = $id;
 
 $servername = "localhost";
 $username = "root";
@@ -28,11 +33,13 @@ VALUES('$message', '$user', '$chosen')";
 
 
 if ($conn->query($sql) === TRUE ) {
-    header('location: test2.php');
+    header('location: store.php');
 }
 else {
-    header('location: test2.php');
+    header('location: store.php');
 }
+
+
 
 $conn->close();
 ?>

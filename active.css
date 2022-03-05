@@ -47,22 +47,27 @@ body{
 .inner .active-people, .inner .message-tab{
     width: 50%;
     text-align: center;
-    padding: 15px 0;
-    font-size: 12px;
+    padding: 20px 0;
+    font-size: 13px;
     font-weight: bold;
     color: rgb(202, 201, 201);
-    letter-spacing: 1.5px;
+    letter-spacing: 1px;
     cursor: pointer;
 }
-
+.active-people{
+    border-radius: 10px 0 0 0;
+}
+.message-tab{
+    border-radius: 0 10px 0 0;
+}
 .message-tab{
     background: rgb(202, 201, 201);
 }
 .main-wrapper .container{
     background: rgb(51, 50, 50);
-    height: calc(100% - 43px);
+    height: calc(100% - 100px);
     padding: 20px 0 10px;
-    border-radius: 10px;
+    border-radius: 15px 15px 10px 10px;
     overflow-y: scroll;
 }
 .user-container:hover{

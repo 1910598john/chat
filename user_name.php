@@ -4,7 +4,7 @@ session_start();
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = 'convos';
+$database = 'users';
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
@@ -14,22 +14,18 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$message = $_SESSION['message'];
-$chosen = $_SESSION['chosen'];
 $user = $_SESSION['username'];
-$from = $_SESSION['from'];
 
+$sql = "SELECT name, username FROM Names";
+$res = $conn->query($sql);
 
-$both_convo2 = $chosen.$user;
-
-$sql = "INSERT INTO ".$both_convo2."(message, messagefrom, sentby, sentto)
-VALUES('$message', '$from', '$user', '$chosen')";
-
-
-if ($conn->query($sql) === TRUE ) {
-    
+if ($res->num_rows > 0) {
+  while($row = $res->fetch_assoc()) {
+    if ($row['username'] == $user) {
+      echo $row['name'];
+    }
+  }
 }
-
 
 $conn->close();
 ?>

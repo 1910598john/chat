@@ -17,10 +17,11 @@ if ($conn->connect_error) {
 $message = $_POST['message'];
 $user = $_SESSION['username'];
 $to = $_POST['user'];
+$from = $_SESSION['from'];
 
 
-$sql = "INSERT INTO Messages(message, sentby, sentto)
-VALUES('$message', '$user', '$to')";
+$sql = "INSERT INTO Messages(message, messagefrom, sentby, sentto)
+VALUES('$message', '$from', '$user', '$to')";
 
 if ($conn->query($sql) === TRUE) {
     

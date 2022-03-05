@@ -14,19 +14,22 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$chosen = $_SESSION['chosen'];
-$user = $_SESSION['username'];
+$chosen = null;
+$user = null;
+if (isset($_SESSION['chosen'])) {
+    $chosen = $_SESSION['chosen'];
+    $user = $_SESSION['user'];
+}
 $convo = $chosen.$user;
-
-$sql = "SELECT id, message, sentby FROM ".$convo;
-$res = $conn->query($sql);
-
 $alignment = null;
 $bgc = null;
 $font_color = null;
 
+$sql = "SELECT id, message, sentby FROM ".$convo;
+$res = $conn->query($sql);
 
-if (!empty($res) && $res->num_rows > 0) {
+
+if (!(empty($res))) {
     while ($row = $res->fetch_assoc()) {
         if ($row['sentby'] == $chosen) {
             $alignment = 'justify-content: flex-start';

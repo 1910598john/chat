@@ -13,26 +13,26 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$id = 0;
-$arr = array();
-$newarr = null;
-$to = null;
+
 
 $sql = "SELECT sentby, sentto FROM Messages";
 $res = $conn->query($sql);
-if (!(empty($res))) {
+
+$id = 0;
+$arr = array();
+$newarr = null;
+$int = null;
+
+
+if (!(empty($res)) && ($res->num_rows > 0)) {
     while ($row = $res->fetch_assoc()) {
-        if ($row['sentto'] == $_SESSION['username']) {
-            array_push($arr, $row['sentto']);
-            $newarr = array_unique($arr);
-            for($x = 0; $x < count($newarr); $x++) {
-                $id += 1;
-            }
+        if ($row['sentby'] != $_SESSION['username'] && $row['sentto'] == $_SESSION['username']) {
+            array_push($arr, $row['sentby']);
         }
     }
-    echo $id;
+    $newarr = array_unique($arr);
+    echo count($newarr);
 }
-
 
 
 $conn->close();

@@ -22,6 +22,7 @@ $both_convo2 = $chosen.$user;
 $sql = "CREATE TABLE ".$both_convo2." (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   message VARCHAR(255) NOT NULL,
+  messagefrom VARCHAR(50) NOT NULL,
   sentby VARCHAR(30) NOT NULL,
   sentto VARCHAR(30) NOT NULL)";
 

@@ -1,11 +1,31 @@
-$(".user-container").click(function(){
-    var user = $(this).children("div.username").html();
-    var name = $(this).children("div.user").html();
+window.addEventListener("load", function(){
+    let req = new XMLHttpRequest();
+    req.onload = function(){
+        document.getElementById("container").innerHTML = this.responseText;
+    }
+    req.open("GET", "active_people_content.php");
+    req.send();
+})
+
+
+var messagefrom;
+function start_chatting(user, name){
     localStorage.setItem("user", user);
     $.ajax({
         type: 'POST',
-        url: 'convo.php',
-        data: { user : user },
+        url: 'user_name.php',
+        data: {user : user},
+        success: function(res){
+            messagefrom = res;
+            $.ajax({
+                type: 'POST',
+                url: 'convo.php',
+                data: {
+                    user: user,
+                    name: name,
+                }
+            })
+        }
     });
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#fff;top:0;left:0;">
@@ -53,7 +73,8 @@ $(".user-container").click(function(){
                 url: 'storeconvo.php',
                 data: { 
                     message : message,
-                    user : user
+                    user : user,
+                    messagefrom: messagefrom
                 },
                 success: function(){
                     $.ajax({
@@ -61,7 +82,8 @@ $(".user-container").click(function(){
                         url: 'messages.php',
                         data: {
                             message: message,
-                            user: user
+                            user: user,
+                            messagefrom: messagefrom
                         }
                     })
                 }
@@ -87,8 +109,14 @@ $(".user-container").click(function(){
     document.getElementById("return").addEventListener("click", function(){
         $(".chat-wrapper").remove();   
     })
-    
+}
+
+$(".user-container").click(function(){
+    var user = $(this).children("div.username").html();
+    var name = $(this).children("div.user").html();
+    start_chatting(user, name);
 })
+
 $(".profile").click(function(){
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="chat-wrapper" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#fff;top:0;left:0;">
@@ -101,9 +129,6 @@ function func(){
     $.ajax({
         type: 'POST',
         url: 'inactive.php',
-        success: function(response){
-            $("body").append(response);
-        }
     });
 }
 //update status to online
@@ -111,9 +136,6 @@ function load(){
     $.ajax({
         type: 'POST',
         url: 'online.php',
-        success: function(response){
-            $("body").append(response);
-        }
     });
 }
 //refresh page..
@@ -125,7 +147,7 @@ document.getElementById("refresh").addEventListener("click", function(){
 setInterval(() => {
     $.ajax({
         type: 'POST',
-        url: 'new_message.php',
+        url: 'message_notif.php',
         success: function(res){
             let x = parseInt(res);
             if (x > 0) {
@@ -146,14 +168,62 @@ function start_notification(){
         req.onload = function(){
             document.getElementById("message-notif").innerHTML = this.responseText;
         }
-        req.open("GET", "new_message.php");
+        req.open("GET", "message_notif.php");
         req.send();
     }
 }
 
 start_notification();
 
-document.getElementById("div").addEventListener("click", function(){
-    document.getElementById("div").innerHTML = "You have 0 message(s)";
-    clearInterval(interv);
+
+
+document.getElementById("message-tab").addEventListener("click", function(){
+    this.style.background = "rgb(51, 50, 50)";
+    $(".fa-brands").css("color", "rgb(202, 201, 201)");
+    $("#message-notif").css("border-color", "rgb(51, 50, 50)");
+    $("#active").css("background","rgb(202, 201, 201)");
+    $("#active").css({
+        "color" : "rgb(51, 50, 50)",
+    });
+    $('.active-people-content').remove();
+    document.getElementById("container").insertAdjacentHTML("afterbegin", `
+    <div class="message-tab-content" id="message-tab-content"></div>`);
+    $.ajax({
+        type: 'POST',
+        url: 'message_tab_content.php',
+        success: function(res){
+            $("#message-tab-content").append(res);
+            $(".user-container").click(function(){
+                var user = $(this).children("div.username").html();
+                var name = $(this).children("div.user").html();
+                start_chatting(user, name);
+            })
+        }
+    })
+    
+})
+document.getElementById("active").addEventListener("click", function(){
+    document.getElementById("message-tab").style.background = "rgb(202, 201, 201)";
+    $(".fa-brands").css("color", "rgb(51, 50, 50)");
+    $("#message-notif").css("border-color", "rgb(202, 201, 201)");
+    $("#active").css("background","rgb(51, 50, 50)");
+    $("#active").css({
+        "color" : "rgb(202, 201, 201)",
+        "font-weight" : "bold",
+    });
+    $(".message-tab-content").remove();
+    document.getElementById("container").insertAdjacentHTML("afterbegin", `
+    <div class="active-people-content" id="active-people-content"></div>`);
+    $.ajax({
+        type: 'POST',
+        url: 'active_people_content.php',
+        success: function(res){
+            $("#active-people-content").append(res);
+            $(".user-container").click(function(){
+                var user = $(this).children("div.username").html();
+                var name = $(this).children("div.user").html();
+                start_chatting(user, name);
+            })
+        }
+    })
 })

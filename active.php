@@ -10,59 +10,18 @@
 </head>
 <body onbeforeunload="func()" onload="load()">
 <div class="body-container">
-    <div id="div" style="color:#fff;">wew</div>
     <div class="main" id="main">
         <div id="refresh" style="text-align:left;"><i class="fa-solid fa-rotate" style="cursor:pointer;font-size:1.2em;color:rgb(51, 50, 50)"></i></div>
         <div class="profile" style="text-align:right;"><i class="fa-solid fa-user" style="cursor:pointer;font-size:1.2em;color:rgb(51, 50, 50)"></i></div>
         <div class="main-wrapper">
             <div class="inner">
-                <div class="online active-people" id="active">ACTIVE</div>
+                <div class="online active-people" id="active">ONLINE</div>
                 <div class="message-tab" id="message-tab" style="position:relative">
                     <i class="fa-brands fa-facebook-messenger" style="position:absolute;color:rgb(51, 50, 50);font-size:1.8em;top:50%;left:50%;transform:translate(-50%,-50%);"><div id="message-notif" style="display:none;border-radius:50%;background:red;position:absolute;left:60%;bottom:60%;font-size:11px;width:17px;height:17px;padding:2px 4px;border:2px solid rgb(202, 201, 201);color:rgb(202, 201, 201);">0</div></i>
                 </div>
             </div>
             <div class="container" id="container">
-            <?php
-            session_start();
-
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $database = 'users';
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $database);
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
-
-            $sql = "SELECT name, username, status from Names";
-            $res = $conn->query($sql);
-
-            while ($row = $res->fetch_assoc()) {
-                if (!($row['name'] == $_SESSION['user'])) {
-                    if ($row['status'] == 'online') {
-                        echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">
-                            <div class="user" style="color:#fff;">'.$row["name"].'</div>
-                            <div class="username" style="color:#fff;display:none;">'.$row["username"].'</div>
-                            <div class="status-wrapper"><span style="color:#0da33d;">'.$row['status'].'</span></div>
-                        </div>';
-                    }
-                    else {
-                        echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">
-                            <div class="user" style="color:#fff;">'.$row["name"].'</div>
-                            <div class="username" style="color:#fff;display:none;">'.$row["username"].'</div>
-                            <div class="status-wrapper"><span style="color:#b0463a;">'.$row['status'].'</span></div>
-                        </div>';
-                    }
-                }
-            }
-
-            $conn->close();
-            ?>
-                
+                    
             </div>
         </div>
     </div>

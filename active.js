@@ -1,14 +1,23 @@
 window.addEventListener("load", function(){
-    let req = new XMLHttpRequest();
-    req.onload = function(){
-        document.getElementById("container").innerHTML = this.responseText;
-    }
-    req.open("GET", "active_people_content.php");
-    req.send();
+    document.getElementById("container").insertAdjacentHTML("afterbegin", `
+    <div class="active-people-content" id="active-people-content"></div>`);
+    $.ajax({
+        type: 'POST',
+        url: 'active_people_content.php',
+        success: function(res){
+            $("#active-people-content").append(res);
+            $(".user-container").click(function(){
+                var user = $(this).children("div.username").html();
+                var name = $(this).children("div.user").html();
+                start_chatting(user, name);
+            })
+        }
+    })
 })
 
 
 var messagefrom;
+var x;
 function start_chatting(user, name){
     localStorage.setItem("user", user);
     $.ajax({
@@ -149,7 +158,7 @@ setInterval(() => {
         type: 'POST',
         url: 'message_notif.php',
         success: function(res){
-            let x = parseInt(res);
+            x = parseInt(res);
             if (x > 0) {
                 $("#message-notif").css("display", "block");
             }
@@ -177,7 +186,8 @@ start_notification();
 
 
 
-document.getElementById("message-tab").addEventListener("click", function(){
+document.getElementById("message-tab").addEventListener("click", function(event){
+
     this.style.background = "rgb(51, 50, 50)";
     $(".fa-brands").css("color", "rgb(202, 201, 201)");
     $("#message-notif").css("border-color", "rgb(51, 50, 50)");
@@ -185,6 +195,7 @@ document.getElementById("message-tab").addEventListener("click", function(){
     $("#active").css({
         "color" : "rgb(51, 50, 50)",
     });
+    $(".message-tab-content").remove();
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
     <div class="message-tab-content" id="message-tab-content"></div>`);
@@ -201,6 +212,7 @@ document.getElementById("message-tab").addEventListener("click", function(){
         }
     })
     
+    
 })
 document.getElementById("active").addEventListener("click", function(){
     document.getElementById("message-tab").style.background = "rgb(202, 201, 201)";
@@ -212,6 +224,7 @@ document.getElementById("active").addEventListener("click", function(){
         "font-weight" : "bold",
     });
     $(".message-tab-content").remove();
+    $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
     <div class="active-people-content" id="active-people-content"></div>`);
     $.ajax({

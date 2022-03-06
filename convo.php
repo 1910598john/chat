@@ -17,10 +17,10 @@ if ($conn->connect_error) {
 }
 
 $chosen = $_POST['user'];
-$_SESSION['chosen'] = $_POST['user'];
-$user = $_SESSION['username'];
+$_SESSION['chosen'] = $_POST['user']; //chosen person username
+$my_username = $_SESSION['myusername'];
 
-$both_convo = $user.$chosen;
+$both_convo = $my_username.$chosen;
 
 $sql = "CREATE TABLE ".$both_convo." (
   id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

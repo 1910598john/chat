@@ -13,7 +13,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$user = $_SESSION['user'];
+$user = $_SESSION['myname'];
 
 $sql = "UPDATE Names SET status = 'online' WHERE name = '$user'";
 

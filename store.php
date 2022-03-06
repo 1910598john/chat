@@ -14,10 +14,10 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-$message = $_SESSION['message'];
-$chosen = $_SESSION['chosen'];
-$user = $_SESSION['username'];
-$from = $_SESSION['from'];
+$message = $_SESSION['message']; //message stored
+$chosen = $_SESSION['chosen']; //chosen person username
+$user = $_SESSION['myusername']; //user's username
+$from = $_SESSION['from']; //sender name
 
 
 $both_convo2 = $chosen.$user;

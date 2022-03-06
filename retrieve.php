@@ -18,7 +18,7 @@ $chosen = null;
 $user = null;
 if (isset($_SESSION['chosen'])) {
     $chosen = $_SESSION['chosen'];
-    $user = $_SESSION['user'];
+    $user = $_SESSION['myusername'];
 }
 $convo = $chosen.$user;
 $alignment = null;

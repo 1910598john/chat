@@ -184,17 +184,18 @@ function start_notification(){
 
 start_notification();
 
+//change styles when click
+$(".list").click(function(){
+    $(".list").removeClass("active");
+    $(".list").addClass("inactive");
+    this.classList.remove("inactive");
+    this.classList.add("active");
+})
 
 
+//message tab
 document.getElementById("message-tab").addEventListener("click", function(event){
-
-    this.style.background = "rgb(51, 50, 50)";
-    $(".fa-brands").css("color", "rgb(202, 201, 201)");
-    $("#message-notif").css("border-color", "rgb(51, 50, 50)");
-    $("#active").css("background","rgb(202, 201, 201)");
-    $("#active").css({
-        "color" : "rgb(51, 50, 50)",
-    });
+    $("#container").css("border-radius", "10px 0 10px 10px");
     $(".message-tab-content").remove();
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
@@ -211,18 +212,21 @@ document.getElementById("message-tab").addEventListener("click", function(event)
             })
         }
     })
-    
-    
 })
+
+//group chat tab
+
+document.getElementById("group-chat").addEventListener("click", function(){
+    $("#container").css("border-radius", "10px 10px 10px 10px");
+    $(".message-tab-content").remove();
+    $('.active-people-content').remove();
+})
+
+
+
+//active people tab
 document.getElementById("active").addEventListener("click", function(){
-    document.getElementById("message-tab").style.background = "rgb(202, 201, 201)";
-    $(".fa-brands").css("color", "rgb(51, 50, 50)");
-    $("#message-notif").css("border-color", "rgb(202, 201, 201)");
-    $("#active").css("background","rgb(51, 50, 50)");
-    $("#active").css({
-        "color" : "rgb(202, 201, 201)",
-        "font-weight" : "bold",
-    });
+    $("#container").css("border-radius", "0 10px 10px 10px");
     $(".message-tab-content").remove();
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `

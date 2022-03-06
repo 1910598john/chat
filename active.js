@@ -126,12 +126,70 @@ $(".user-container").click(function(){
     start_chatting(username, name);
 })
 
+
+//view this.user profile
 $(".profile").click(function(){
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
-    <div class="chat-wrapper" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#fff;top:0;left:0;">
-        
-        
-    </div>`)
+    <div class="my-profile" id="my-profile" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
+        <div id="return-from-self-profile" style="z-index:5;cursor:pointer;position:fixed;top:7%;left:7%;"><i class="fa-solid fa-arrow-left-long" style="color:rgb(51, 50, 50);font-size:1.5em;"></i></div>
+        <div class="this-user-profile self-profile" id="this-user-profile" style="width:100%;height:200px;position:relative;box-shadow: 0 0 2px #000;">
+            <div class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
+                <div class="avatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
+                    <img src="images/blank_avatar.png" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    <i class="fa-solid fa-user-ninja" style="padding:5px;font-size:15px;background:#fff;"></i>
+                </div>
+                <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:rgb(51, 50, 50);font-weight:bold;">john mark</span></div>
+            </div>
+        </div>
+        <div class="self-info" id="self-info" style="width:100%;height:calc(100% - 200px);padding:30px 50px;">
+            <span style="color:rgb(51, 50, 50);font-weight:bold;">Info:</span>
+            <div class="links" style="padding: 30px 0 0 30px">
+                <button id="add-link" style="margin-top:5px;width:100%;background:rgb(51, 50, 50);cursor:pointer;padding:7px 0;border-radius:4px;border:transparent;color:rgb(202, 201, 201);font-weight:bold;">Add link</button>
+            </div>
+        </div>
+    </div>`);
+    //add link
+    $("button#add-link").click(function(){
+        document.getElementById("my-profile").insertAdjacentHTML("afterbegin", `
+        <div class="add-link-panel" style="position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:6;">
+            <div class="add-link-wrapper" style="width:90%;height:50%;background:rgb(202, 201, 201);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);padding:40px;">
+                <span style="font-weight:bold;color:rgb(51, 50, 50);">Link:</span>
+                <div class="inputs" style="display:flex;flex-direction:column;">
+                    <input type="text" id="name-of-link" placeholder="Name (facebook, insta..)" style="font-size:15px;padding:7px;border:1px solid transparent;border-radius:4px;margin:10px 0 5px;">
+                    <input type="text" id="link" placeholder="Paste link here.." style="font-size:15px;padding:7px;border-radius:4px;border:1px solid transparent;margin:0 0 5px 0">
+                    <button id="add-this-link" style="width:100%;background:rgb(51, 50, 50);cursor:pointer;padding:10px 0;border-radius:4px;border:transparent;color:rgb(202, 201, 201);font-weight:bold;">Add</button>
+                </div>
+            </div>
+        </div>`);
+
+        $(".add-link-panel").click(function(){
+            this.remove();
+        })
+        $(".add-link-wrapper").click(function(event){
+            event.stopPropagation();
+            event.preventDefault();
+        })
+        $("#add-this-link").click(function(){
+            let name = $("#name-of-link").val();
+            let link = $("#link").val();
+            document.getElementById("add-link").insertAdjacentHTML("beforebegin", `
+            <div class="link">${name}</div>`);
+            $(".add-link-panel").remove();
+            
+        })
+    })
+    //return
+    setInterval(function(){
+        let count_links = document.getElementsByClassName("link").length;
+        if (count_links == 3) {
+            $("#add-link").remove();
+            clearInterval(this);
+        }
+    }, 100);
+
+    document.getElementById("return-from-self-profile").addEventListener("click", function(){
+        this.parentElement.remove();
+    })
 })
 //update status to offline
 function func(){
@@ -215,7 +273,6 @@ document.getElementById("message-tab").addEventListener("click", function(event)
 })
 
 //group chat tab
-
 document.getElementById("group-chat").addEventListener("click", function(){
     $("#container").css("border-radius", "10px 10px 10px 10px");
     $(".message-tab-content").remove();

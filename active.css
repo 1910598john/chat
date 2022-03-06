@@ -50,7 +50,7 @@ body{
     padding: 20px 0;
     font-weight: bold;
     cursor: pointer;
-    border-radius: 15px 15px 0 0;
+    border-radius: 10px 10px 0 0;
     font-size: 11px;
 }
 .active{
@@ -80,3 +80,19 @@ body{
     background: rgb(129, 125, 125);
 }
 
+.my-profile .link{
+    width:100%;
+    background: rgb(202, 201, 201);
+    color:rgb(51, 50, 50);
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+.my-profile .link:hover{
+    box-shadow: 0 0 5px rgb(51, 50, 50);
+}

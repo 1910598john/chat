@@ -22,8 +22,8 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
-    $_SESSION['user'] = $row['name'];
-    $_SESSION['username'] = $row['username'];
+    $_SESSION['myname'] = $row['name'];
+    $_SESSION['myusername'] = $row['username'];
     echo '<script>window.open("active.php", "_self");</script>';
   }
 }

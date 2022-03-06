@@ -5,7 +5,7 @@ window.addEventListener("load", function(){
         type: 'POST',
         url: 'active_people_content.php',
         success: function(res){
-            $("#active-people-content").append(res);
+            $("#active-people-content").html(res);
             $(".user-container").click(function(){
                 var user = $(this).children("div.username").html();
                 var name = $(this).children("div.user").html();
@@ -76,7 +76,7 @@ function start_chatting(user, name){
     document.getElementById("input").addEventListener("keypress", function(event){
         if (event.keyCode === 13) {
             var message = $("#input").val();
-            var user = localStorage.getItem("user");
+            let user = localStorage.getItem("user"); //chosen person username..
             $.ajax({
                 type: 'POST',
                 url: 'storeconvo.php',
@@ -121,9 +121,9 @@ function start_chatting(user, name){
 }
 
 $(".user-container").click(function(){
-    var user = $(this).children("div.username").html();
-    var name = $(this).children("div.user").html();
-    start_chatting(user, name);
+    let username = $(this).children("div.username").html();
+    let name = $(this).children("div.user").html();
+    start_chatting(username, name);
 })
 
 $(".profile").click(function(){
@@ -205,9 +205,9 @@ document.getElementById("message-tab").addEventListener("click", function(event)
         success: function(res){
             $("#message-tab-content").append(res);
             $(".user-container").click(function(){
-                var user = $(this).children("div.username").html();
-                var name = $(this).children("div.user").html();
-                start_chatting(user, name);
+                let username = $(this).children("div.username").html();
+                let name = $(this).children("div.user").html();
+                start_chatting(username, name);
             })
         }
     })
@@ -233,9 +233,9 @@ document.getElementById("active").addEventListener("click", function(){
         success: function(res){
             $("#active-people-content").append(res);
             $(".user-container").click(function(){
-                var user = $(this).children("div.username").html();
-                var name = $(this).children("div.user").html();
-                start_chatting(user, name);
+                let username = $(this).children("div.username").html();
+                let name = $(this).children("div.user").html();
+                start_chatting(username, name);
             })
         }
     })

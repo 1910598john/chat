@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['user'] = $_POST['name'];
+$_SESSION['myname'] = $_POST['name'];
 
 $servername = "localhost";
 $username = "root";

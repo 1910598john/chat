@@ -26,7 +26,7 @@ $int = null;
 
 if (!(empty($res)) && ($res->num_rows > 0)) {
     while ($row = $res->fetch_assoc()) {
-        if ($row['sentby'] != $_SESSION['username'] && $row['sentto'] == $_SESSION['username']) {
+        if ($row['sentby'] != $_SESSION['myusername'] && $row['sentto'] == $_SESSION['myusername']) {
             array_push($arr, $row['sentby']);
         }
     }

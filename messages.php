@@ -15,9 +15,9 @@ if ($conn->connect_error) {
 }
 
 $message = $_POST['message'];
-$user = $_SESSION['username'];
-$to = $_POST['user'];
-$from = $_SESSION['from'];
+$user = $_SESSION['myusername'];
+$to = $_POST['user']; //chosen person username
+$from = $_SESSION['from']; //sender
 
 
 $sql = "INSERT INTO Messages(message, messagefrom, sentby, sentto)

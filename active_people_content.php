@@ -20,7 +20,7 @@ $res = $conn->query($sql);
 
 echo '<div class="active-people-content" id="active-people-content">';
 while ($row = $res->fetch_assoc()) {
-    if (!($row['name'] == $_SESSION['user'])) {
+    if (!($row['name'] == $_SESSION['myname'])) {
         if ($row['status'] == 'online') {
             echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">
                 <div class="user" style="color:rgb(202, 201, 201);">'.$row["name"].'</div>

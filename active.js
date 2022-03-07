@@ -132,11 +132,12 @@ $(".profile").click(function(){
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="my-profile" id="my-profile" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
         <div id="return-from-self-profile" style="z-index:5;cursor:pointer;position:fixed;top:7%;left:7%;"><i class="fa-solid fa-arrow-left-long" style="color:rgb(51, 50, 50);font-size:1.5em;"></i></div>
+        <div id="settings" style="z-index:5;cursor:pointer;position:fixed;top:8%;right:7%;"><i class="fa-solid fa-gear" style="color:rgb(51, 50, 50);font-size:1.5em;"></i></div>
         <div class="this-user-profile self-profile" id="this-user-profile" style="width:100%;height:200px;position:relative;box-shadow: 0 0 2px #000;">
             <div class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
                 <div class="avatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
                     <img src="images/blank_avatar.png" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-                    <i class="fa-solid fa-user-ninja" style="padding:5px;font-size:15px;background:#fff;"></i>
+                    <i class="fa-solid fa-user-ninja" style="padding:4px;color:rgb(51, 50, 50);font-size:16px;background:rgb(202, 201, 201);border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
                 </div>
                 <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:rgb(51, 50, 50);font-weight:bold;">john mark</span></div>
             </div>
@@ -151,8 +152,8 @@ $(".profile").click(function(){
     //add link
     $("button#add-link").click(function(){
         document.getElementById("my-profile").insertAdjacentHTML("afterbegin", `
-        <div class="add-link-panel" style="position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:6;">
-            <div class="add-link-wrapper" style="width:90%;height:50%;background:rgb(202, 201, 201);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);padding:40px;">
+        <div class="add-link-panel" style="position:fixed;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:6;border-radius:15px;">
+            <div class="add-link-wrapper" style="width:90%;height:50%;background:rgb(202, 201, 201);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);padding:40px;border-radius:10px;">
                 <span style="font-weight:bold;color:rgb(51, 50, 50);">Link:</span>
                 <div class="inputs" style="display:flex;flex-direction:column;">
                     <input type="text" id="name-of-link" placeholder="Name (facebook, insta..)" style="font-size:15px;padding:7px;border:1px solid transparent;border-radius:4px;margin:10px 0 5px;">

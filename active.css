@@ -8,6 +8,9 @@
 ::-webkit-scrollbar{
     display: none;
 }
+:root{
+    --dark: #1c1e21;
+}
 body{
     background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(images/bg.jpg);
     background-position: center;
@@ -54,24 +57,25 @@ body{
     font-size: 11px;
 }
 .active{
-    background: rgb(51, 50, 50);
+    background: #1c1e21;
     color: rgb(202, 201, 201);
     letter-spacing: 1px;
 }
 .active #message-notif{
-    border:2px solid rgb(51, 50, 50);
+    border:2px solid #1c1e21;
 }
 .inactive #message-notif{
     border:2px solid rgb(202, 201, 201);
 }
 .inactive{
-    color: rgb(51, 50, 50);
+    color: #1c1e21;
     background: rgb(202, 201, 201);
     letter-spacing: 0;
 }
 .main-wrapper .container{
-    background: rgb(51, 50, 50);
+    background: #1c1e21;
     height: calc(100% - 60px);
+    overflow-y: scroll;
     padding: 20px 0 10px;
     border-radius: 0 10px 10px 10px;
     overflow-y: scroll;
@@ -83,7 +87,7 @@ body{
 .my-profile .link{
     width:100%;
     background: rgb(202, 201, 201);
-    color:rgb(51, 50, 50);
+    color:#1c1e21;
     font-weight: bold;
     font-size: 15px;
     text-align: center;
@@ -94,5 +98,5 @@ body{
     cursor: pointer;
 }
 .my-profile .link:hover{
-    box-shadow: 0 0 5px rgb(51, 50, 50);
+    box-shadow: 0 0 5px #1c1e21;
 }

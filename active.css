@@ -29,7 +29,7 @@ body{
 .main-wrapper{
     height: 100%;
     border-radius: 15px 15px 10px 10px;
-    background: rgb(51, 50, 50);
+    background: transparent;
 }
 .profile{
     position: absolute;
@@ -44,33 +44,55 @@ body{
 .inner{
     display: flex;
 }
-.inner .active-people, .inner .message-tab{
+.inner .active-people, .inner .message-tab, .inner .group-chat{
     width: 50%;
     text-align: center;
     padding: 20px 0;
-    font-size: 13px;
     font-weight: bold;
+    cursor: pointer;
+    border-radius: 10px 10px 0 0;
+    font-size: 11px;
+}
+.active{
+    background: rgb(51, 50, 50);
     color: rgb(202, 201, 201);
     letter-spacing: 1px;
-    cursor: pointer;
 }
-.active-people{
-    border-radius: 15px 0 0 0;
+.active #message-notif{
+    border:2px solid rgb(51, 50, 50);
 }
-.message-tab{
-    border-radius: 0 15px 0 0;
+.inactive #message-notif{
+    border:2px solid rgb(202, 201, 201);
 }
-.message-tab{
+.inactive{
+    color: rgb(51, 50, 50);
     background: rgb(202, 201, 201);
+    letter-spacing: 0;
 }
 .main-wrapper .container{
     background: rgb(51, 50, 50);
-    height: calc(100% - 100px);
+    height: calc(100% - 60px);
     padding: 20px 0 10px;
-    border-radius: 10px;
+    border-radius: 0 10px 10px 10px;
     overflow-y: scroll;
 }
 .user-container:hover{
     background: rgb(129, 125, 125);
 }
 
+.my-profile .link{
+    width:100%;
+    background: rgb(202, 201, 201);
+    color:rgb(51, 50, 50);
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
+    padding: 10px 0;
+    margin: 5px 0;
+    border-radius: 4px;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+.my-profile .link:hover{
+    box-shadow: 0 0 5px rgb(51, 50, 50);
+}

@@ -15,9 +15,10 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 $username = $_POST['username'];
 $password = $_POST['password'];
-
-$sql = "INSERT INTO Names(name, username, password, status)
-VALUES('$name', '$username', '$password', 'offline')";
+$src = "images/blank_avatar.png";
+$avatar = addslashes($src);
+$sql = "INSERT INTO Names(avatar, name, username, password, status)
+VALUES('$avatar','$name', '$username', '$password', 'offline')";
 
 if ($conn->query($sql) === TRUE ) {
     echo '<script>alert("registered!")</script>';

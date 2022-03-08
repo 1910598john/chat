@@ -7,19 +7,42 @@ window.addEventListener("load", function(){
         success: function(res){
             $("#active-people-content").html(res);
             $(".user-container").click(function(){
-                var user = $(this).children("div.username").html();
-                var name = $(this).children("div.user").html();
-                start_chatting(user, name);
+                let username = $(this).children("div.username").html();
+                let name = $(this).children("div.this-user-name").html();
+                let avatar = $(this).children("img").attr("src");
+                start_chatting(username, avatar, name);
             })
         }
     })
 })
 
 
-var messagefrom;
+var messagefrom; //me
+var myavatar; //my avatar
+var myname;
 var x;
-function start_chatting(user, name){
+function start_chatting(user, avatar, name){
     localStorage.setItem("user", user);
+    
+    //get self avatar
+    $.ajax({
+        type: 'POST',
+        url: 'get_self_avatar.php',
+        success: function(res){
+            myavatar = res;
+            localStorage.setItem("myavatar", myavatar);
+        }
+    });
+    //get self name
+    $.ajax({
+        type: 'POST',
+        url: 'get_selfname.php',
+        success: function(res){
+            myname = res;
+            localStorage.setItem("myname", myname);
+        }
+    })
+
     $.ajax({
         type: 'POST',
         url: 'user_name.php',
@@ -31,7 +54,6 @@ function start_chatting(user, name){
                 url: 'convo.php',
                 data: {
                     user: user,
-                    name: name,
                 }
             })
         }
@@ -54,26 +76,30 @@ function start_chatting(user, name){
                     $("#message-tab-content").append(res);
                     $(".user-container").click(function(){
                         let username = $(this).children("div.username").html();
-                        let name = $(this).children("div.user").html();
-                        start_chatting(username, name);
+                        let name = $(this).children("div.this-user-name").html();
+                        let avatar = $(this).children("img").attr("src");
+                        start_chatting(username, avatar, name);
                     })
                 }
             })
         }
     })
+    
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
-    <div class="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
-        <div class="friend-avatar" style="border-radius:15px 15px 0 0;z-index:10;background-image:linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.5));padding: 10px 0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:95px;">
-            <div class="return" id="return" style="position:absolute;left:7%;top:50%;transform:translateY(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-left-long" style="color:#1c1e21;font-size:1.5em;"></i></div>
-            <div class="image" style=";width:50px;height:50px;;text-align:center;position:absolute;transform:translateX(-50%);left:50%;"><img style="width:100%;border-radius:50%;height:100%;object-fit:cover;" src="images/blank_avatar.png"></div>
-            <div class="name" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);"><span style="font-weight:bold;color:#1c1e21">${name}</span></div>
+    <div class="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#1c1e21;top:0;left:0;">
+        <div class="friend-avatar" style="border-radius:15px 15px 0 0;z-index:10;background-image:linear-gradient(rgba(28, 30, 33,0.7), rgba(28, 30, 33,0.5));padding: 10px 0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:95px;">
+            <div class="return" id="return" style="position:absolute;left:7%;top:50%;transform:translateY(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-left-long" style="color:#fff;font-size:1.5em;"></i></div>
+            <div class="image" style="width:50px;height:50px;text-align:center;position:absolute;transform:translateX(-50%);left:50%;">
+                <img src="${avatar}" style="width:100%;border-radius:50%;height:100%;object-fit:cover;">
+            </div>
+            <div class="name" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);"><span style="font-weight:bold;color:#fff">${name}</span></div>
         </div>
         <div id="message-wrapper" style="padding: 20px 0 40px 0;position:absolute;bottom:50px;width:calc(100% - 40px);max-height:calc(100% - 120px);overflow-y:scroll;">
             
         </div>
         <div id="scroll-down" style="position: absolute;bottom:70px;left:50%;transformX(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-down" style="color:#000;font-size:1.2em;"></i></div>
         <div class="user-input" style="border-radius:0 0 15px 15px;z-index:10;background:transparent;position:absolute;bottom:0;left:0;width:100%;height:50px;">
-            <input type="text" id="input" placeholder="Say something.." style="padding:7px 15px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
+            <input type="text" id="input" placeholder="Say something.." style="background:#1c1e21;caret-color:#42e9f5;color:#42e9f5;padding:7px 15px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
         </div>
     </div>`)
     function scr() {
@@ -107,6 +133,7 @@ function start_chatting(user, name){
                 url: 'storeconvo.php',
                 data: { 
                     message : message,
+                    avatar: myavatar, 
                     user : user,
                     messagefrom: messagefrom
                 },
@@ -116,6 +143,7 @@ function start_chatting(user, name){
                         url: 'messages.php',
                         data: {
                             message: message,
+                            avatar: myavatar,
                             user: user,
                             messagefrom: messagefrom
                         }
@@ -141,28 +169,16 @@ function start_chatting(user, name){
     
     document.getElementById("return").addEventListener("click", function(){
         $(".chat-wrapper").remove();
-        document.getElementById("container").insertAdjacentHTML("afterbegin", `
-        <div class="active-people-content" id="active-people-content"></div>`);
-        $.ajax({
-            type: 'POST',
-            url: 'active_people_content.php',
-            success: function(res){
-                $("#active-people-content").append(res);
-                $(".user-container").click(function(){
-                    let username = $(this).children("div.username").html();
-                    let name = $(this).children("div.user").html();
-                    start_chatting(username, name);
-                })
-            }
-        })
+        
         clearInterval(int);
     })
 }
 
 $(".user-container").click(function(){
     let username = $(this).children("div.username").html();
-    let name = $(this).children("div.user").html();
-    start_chatting(username, name);
+    let name = $(this).children("div.this-user-name").html();
+    let avatar = $(this).children("img").attr("src");
+    start_chatting(username, avatar, name);
 })
 
 
@@ -175,10 +191,10 @@ $(".profile").click(function(){
         <div class="this-user-profile self-profile" id="this-user-profile" style="width:100%;height:200px;position:relative;box-shadow: 0 0 2px #000;">
             <div class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
                 <div class="avatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
-                    <img src="images/blank_avatar.png" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    <img src="${localStorage.getItem("myavatar")}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                     <i class="fa-solid fa-user-ninja" style="padding:4px;color:#1c1e21;font-size:16px;background:rgb(202, 201, 201);border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
                 </div>
-                <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:#1c1e21;font-weight:bold;">john mark</span></div>
+                <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:#1c1e21;font-weight:bold;">${localStorage.getItem("myname")}</span></div>
             </div>
         </div>
         <div class="self-info" id="self-info" style="width:100%;height:calc(100% - 200px);padding:30px 50px;">
@@ -307,8 +323,9 @@ document.getElementById("message-tab").addEventListener("click", function(event)
             $("#message-tab-content").append(res);
             $(".user-container").click(function(){
                 let username = $(this).children("div.username").html();
-                let name = $(this).children("div.user").html();
-                start_chatting(username, name);
+                let name = $(this).children("div.this-user-name").html();
+                let avatar = $(this).children("img").attr("src");
+                start_chatting(username, avatar, name);
             })
         }
     })
@@ -350,9 +367,11 @@ document.getElementById("active").addEventListener("click", function(){
             $("#active-people-content").append(res);
             $(".user-container").click(function(){
                 let username = $(this).children("div.username").html();
-                let name = $(this).children("div.user").html();
-                start_chatting(username, name);
+                let name = $(this).children("div.this-user-name").html();
+                let avatar = $(this).children("img").attr("src");
+                start_chatting(username, avatar, name);
             })
         }
     })
 })
+

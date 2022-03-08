@@ -16,8 +16,8 @@ document.getElementById("register-confirm").addEventListener("click", function()
     let username = document.getElementById("reg-username").value;
     let password = document.getElementById("reg-password").value;
 
-    if (name.length > 13) {
-        alert("Name must not exceed 13 characters.");
+    if (name.length > 20) {
+        alert("Name must not exceed 20 characters.");
     }
     else if (name == "" || username == "" || password == "") {
         alert("Input fields must be filled out.");

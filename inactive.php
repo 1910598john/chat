@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $user = $_SESSION['myname'];
 
 $sql = "UPDATE Names SET status = 'offline' WHERE name = '$user'";
-
+$_SESSION['status'] = "offline";
 if ($conn->query($sql) === TRUE ) {
   
 }

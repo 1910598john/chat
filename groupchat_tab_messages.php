@@ -18,7 +18,7 @@ $alignment = null;
 $bgc = null;
 $font_color = null;
 
-$sql = "SELECT id, message, sentby FROM groupchat";
+$sql = "SELECT id, avatar, message, sentby FROM groupchat";
 $res = $conn->query($sql);
 
 if ($res->num_rows > 0) {
@@ -27,15 +27,40 @@ if ($res->num_rows > 0) {
             $alignment = 'justify-content: flex-start';
             $bgc = '#E4E6EB';
             $font_color = '#050505';
+            if ($_SESSION['status'] == "online") {
+                echo '  <div class="message-wrapper">
+                        <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0 10px 10px;">
+                            <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
+                                <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                                <div style="width:15px;height:15px;background:#199c31;border-radius:50%;position:absolute;left:65%;top:60%;border:2px solid #1c1e21;"></div>
+                            </div>
+                            <div style="max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;">'.$row['message'].'</div>
+                        </div>
+                    </div>';
+            }
+            else {
+                echo '  <div class="message-wrapper">
+                        <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0 10px 10px;">
+                            <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;border:1px solid #fff;position:relative;">
+                                <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                                
+                            </div>
+                            <div style="max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;">'.$row['message'].'</div>
+                        </div>
+                    </div>';
+            }
         }
         else {
             $alignment = 'justify-content: flex-end';
             $bgc = '#1877f2';
             $font_color = '#fff';
+            echo '  <div class="message-wrapper">
+                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 10px 10px 0;">
+                        <div style="max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;">'.$row['message'].'</div>
+                    </div>
+                </div>';
         }
-        echo '<div id="group-message'.$row['id'].'" class="group-message '.$row['sentby'].'" style="display:flex;'.$alignment.';margin:10px">
-                  <div style="max-width:40%;overflow-wrap:break-word;background:'.$bgc.';color:'.$font_color.';padding:7px;border-radius:10px;font-size:12px;">'.$row['message'].'</div>
-              </div>';
+        
     }
 }
 

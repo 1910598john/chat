@@ -4,9 +4,14 @@
     font-family: sans-serif;
     outline: none;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 ::-webkit-scrollbar{
     display: none;
+}
+::selection{
+    color: #1c1e21;
+    background:rgb(202, 201, 201);
 }
 :root{
     --dark: #1c1e21;

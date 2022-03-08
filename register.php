@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $name = $_POST['name'];
 $username = $_POST['username'];
 $password = $_POST['password'];
-$src = "images%blank_avatar.png";
+$src = "images/blank_avatar.png";
 $avatar = addslashes($src);
 $sql = "INSERT INTO Names(avatar, name, username, password, status)
 VALUES('$avatar','$name', '$username', '$password', 'offline')";

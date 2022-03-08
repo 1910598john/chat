@@ -25,7 +25,7 @@ $alignment = null;
 $bgc = null;
 $font_color = null;
 
-$sql = "SELECT id, avatar, message, sentby FROM ".$convo;
+$sql = "SELECT id, avatar, message, sentby, status FROM ".$convo;
 $res = $conn->query($sql);
 
 
@@ -35,7 +35,7 @@ if (!(empty($res))) {
             $alignment = 'justify-content: flex-start';
             $bgc = '#E4E6EB';
             $font_color = '#050505';
-            if ($_SESSION['status'] == "online") {
+            if ($row['status'] == "online") {
                 echo '  <div class="message-wrapper">
                     <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0;">
                         <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">

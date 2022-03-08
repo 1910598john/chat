@@ -18,7 +18,7 @@ $alignment = null;
 $bgc = null;
 $font_color = null;
 
-$sql = "SELECT id, avatar, message, sentby FROM groupchat";
+$sql = "SELECT id, avatar, message, sentby, status FROM groupchat";
 $res = $conn->query($sql);
 
 if ($res->num_rows > 0) {
@@ -27,7 +27,7 @@ if ($res->num_rows > 0) {
             $alignment = 'justify-content: flex-start';
             $bgc = '#E4E6EB';
             $font_color = '#050505';
-            if ($_SESSION['status'] == "online") {
+            if ($row['status'] == "online") {
                 echo '  <div class="message-wrapper">
                         <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0 10px 10px;">
                             <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
@@ -41,7 +41,7 @@ if ($res->num_rows > 0) {
             else {
                 echo '  <div class="message-wrapper">
                         <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0 10px 10px;">
-                            <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;border:1px solid #fff;position:relative;">
+                            <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
                                 <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                                 
                             </div>

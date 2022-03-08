@@ -27,8 +27,10 @@ $_SESSION['myavatar'] = $_POST['avatar']; //store my avatar
 $both_convo = $user.$chosen;
 $both_convo2 = $chosen.$user;
 
-$sql = "INSERT INTO ".$both_convo."(avatar, message, messagefrom, sentby, sentto)
-VALUES('$avatar', '$message', '$from', '$user', '$chosen')";
+$status = $_SESSION['status'];
+
+$sql = "INSERT INTO ".$both_convo."(avatar, message, messagefrom, sentby, sentto, status)
+VALUES('$avatar', '$message', '$from', '$user', '$chosen', '$status')";
 
 
 if ($conn->query($sql) === TRUE ) {

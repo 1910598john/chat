@@ -16,11 +16,11 @@ if ($conn->connect_error) {
 
 
 $usernames = array();
-$status = null;
+$status = array();
 $names = array();
 $avatars = array();
 $message = array();
-$sql = "SELECT avatar, message, messagefrom, sentby, sentto FROM Messages";
+$sql = "SELECT avatar, message, messagefrom, sentby, sentto, status FROM Messages";
 $res = $conn->query($sql);
 
 
@@ -31,6 +31,7 @@ if ($res->num_rows > 0) {
             array_push($names, $row['messagefrom']);
             array_push($avatars, $row['avatar']);
             array_push($message, $row['message']);
+            array_push($status, $row['status']);
         }
         
     }
@@ -39,10 +40,12 @@ if ($res->num_rows > 0) {
     $names_newarr = array_unique($names);
     $avatars_newarr = array_unique($avatars);
     $message_newarr = array_unique($message);
+    $status_newarr = array_unique($status);
     $len = count($names_newarr);
     
     for ($x = 0; $x < $len; $x++) {
-        if ($_SESSION['status'] == "online") {
+
+        if ($status_newarr[$x] == "online") {
             echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">';
             echo    '<img src="'.$avatars_newarr[$x].'" style="display:none;">';
             echo    '<div class="this-user-name" style="display:none;">'.$names_newarr[$x].'</div>';

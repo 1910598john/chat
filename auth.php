@@ -24,7 +24,7 @@ if ($result->num_rows > 0) {
   while ($row = $result->fetch_assoc()) {
     $_SESSION['myname'] = $row['name'];
     $_SESSION['myusername'] = $row['username'];
-    
+    $_SESSION['status'] = $row['status'];
   }
   echo '<script>window.open("active.php", "_self");</script>';
 }

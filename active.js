@@ -168,6 +168,13 @@ $(".user-container").click(function(){
 
 //view this.user profile
 $(".profile").click(function(){
+    $.ajax({
+        type: 'POST',
+        url: 'get_selfname.php',
+        success: function(res){
+            localStorage.setItem("myname", res);
+        }
+    })
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="my-profile" id="my-profile" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
         <div id="return-from-self-profile" style="z-index:5;cursor:pointer;position:fixed;top:7%;left:7%;"><i class="fa-solid fa-arrow-left-long" style="color:#1c1e21;font-size:1.5em;"></i></div>
@@ -178,7 +185,7 @@ $(".profile").click(function(){
                     <img src="images/blank_avatar.png" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                     <i class="fa-solid fa-user-ninja" style="padding:4px;color:#1c1e21;font-size:16px;background:rgb(202, 201, 201);border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
                 </div>
-                <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:#1c1e21;font-weight:bold;">john mark</span></div>
+                <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:#1c1e21;font-weight:bold;">${localStorage.getItem("myname")}</span></div>
             </div>
         </div>
         <div class="self-info" id="self-info" style="width:100%;height:calc(100% - 200px);padding:30px 50px;">
@@ -356,3 +363,4 @@ document.getElementById("active").addEventListener("click", function(){
         }
     })
 })
+

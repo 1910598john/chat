@@ -190,7 +190,7 @@ $(".profile").click(function(){
         <div id="settings" style="z-index:5;cursor:pointer;position:fixed;top:8%;right:7%;"><i class="fa-solid fa-gear" style="color:#1c1e21;font-size:1.5em;"></i></div>
         <div class="this-user-profile self-profile" id="this-user-profile" style="width:100%;height:200px;position:relative;box-shadow: 0 0 2px #000;">
             <div class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
-                <div class="avatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
+                <div class="myavatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
                     <img src="${localStorage.getItem("myavatar")}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                     <i class="fa-solid fa-user-ninja" style="padding:4px;color:#1c1e21;font-size:16px;background:rgb(202, 201, 201);border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
                 </div>
@@ -327,6 +327,26 @@ document.getElementById("message-tab").addEventListener("click", function(event)
                 let avatar = $(this).children("img").attr("src");
                 start_chatting(username, avatar, name);
             })
+            //get status
+            $.ajax({
+                type: 'POST',
+                url: 'get_status.php',
+                success: function(res){
+                    let json = JSON.parse(res);
+                    let names = json[0];
+                    let usernames = json[1];
+                    let status = json[2];
+                    let parentElementToInsert = $(".avatar");
+                    for (let i = 0; i < parentElementToInsert.length; i++) {
+                        for (let j = 0; j < usernames.length; j++) {
+                            if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
+                                parentElementToInsert[i].insertAdjacentHTML("beforeend", `
+                                <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>`)
+                            }
+                        }
+                    }
+                }
+            })
         }
     })
 })
@@ -340,14 +360,35 @@ document.getElementById("group-chat").addEventListener("click", function(){
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
     <div class="groupchat-tab-content" id="groupchat-tab-content"></div>`);
-    //auto retrieve 
-    
-        var req = new XMLHttpRequest();
-        req.onload = function(){
-            document.getElementById("groupchat-tab-content").innerHTML = this.responseText;
+    //fetch groupchat messages
+    $.ajax({
+        type: 'POST',
+        url: 'groupchat_tab_messages.php',
+        success: function(res){
+            $(".groupchat-tab-content").append(res);
+            //get status
+            $.ajax({
+                type: 'POST',
+                url: 'get_status.php',
+                success: function(res){
+                    let json = JSON.parse(res);
+                    let names = json[0];
+                    let usernames = json[1];
+                    let status = json[2];
+                    let parentElementToInsert = $(".avatar");
+                    for (let i = 0; i < parentElementToInsert.length; i++) {
+                        for (let j = 0; j < usernames.length; j++) {
+                            if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
+                                parentElementToInsert[i].insertAdjacentHTML("beforeend", `
+                                <div style="width:15px;height:15px;background:#199c31;border-radius:50%;position:absolute;left:65%;top:60%;border:2px solid #1c1e21;"></div>`)
+                            }
+                        }
+                    }
+                    
+                }
+            })
         }
-        req.open("GET", "groupchat_tab_messages.php");
-        req.send();
+    })
     
 })
 

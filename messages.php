@@ -19,11 +19,10 @@ $user = $_SESSION['myusername'];
 $to = $_POST['user']; //chosen person username
 $from = $_SESSION['from']; //sender
 $avatar = $_POST['avatar']; //
-$status = $_SESSION['status'];
 $_SESSION['myavatar'] = $_POST['avatar'];
 
-$sql = "INSERT INTO Messages(avatar, message, messagefrom, sentby, sentto, status)
-VALUES('$avatar', '$message', '$from', '$user', '$to', '$status')";
+$sql = "INSERT INTO Messages(avatar, message, messagefrom, sentby, sentto)
+VALUES('$avatar', '$message', '$from', '$user', '$to')";
 
 if ($conn->query($sql) === TRUE) {
     

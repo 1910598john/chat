@@ -28,8 +28,7 @@ $sql = "CREATE TABLE ".$both_convo." (
   message VARCHAR(255) NOT NULL,
   messagefrom VARCHAR(50) NOT NULL,
   sentby VARCHAR(30) NOT NULL,
-  sentto VARCHAR(30) NOT NULL,
-  status VARCHAR(30) NOT NULL)";
+  sentto VARCHAR(30) NOT NULL)";
 
 
 

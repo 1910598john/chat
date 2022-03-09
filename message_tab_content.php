@@ -20,9 +20,10 @@ $status = array();
 $names = array();
 $avatars = array();
 $message = array();
-$sql = "SELECT avatar, message, messagefrom, sentby, sentto, status FROM Messages";
+$sql = "SELECT avatar, message, messagefrom, sentby, sentto FROM Messages";
 $res = $conn->query($sql);
 
+//<div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>
 
 if ($res->num_rows > 0) {
     while ($row = $res->fetch_assoc()) {
@@ -31,7 +32,6 @@ if ($res->num_rows > 0) {
             array_push($names, $row['messagefrom']);
             array_push($avatars, $row['avatar']);
             array_push($message, $row['message']);
-            array_push($status, $row['status']);
         }
         
     }
@@ -40,46 +40,26 @@ if ($res->num_rows > 0) {
     $names_newarr = array_unique($names);
     $avatars_newarr = array_unique($avatars);
     $message_newarr = array_unique($message);
-    $status_newarr = array_unique($status);
     $len = count($names_newarr);
     
     for ($x = 0; $x < $len; $x++) {
 
-        if ($status_newarr[$x] == "online") {
-            echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">';
-            echo    '<img src="'.$avatars_newarr[$x].'" style="display:none;">';
-            echo    '<div class="this-user-name" style="display:none;">'.$names_newarr[$x].'</div>';
-            echo    '<div class="user" style="display:flex;flex-direction: row;align-items:center;">
-                        <div style="width:40px;height:40px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
-                            <img src="'.$avatars_newarr[$x].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-                            <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>
-                        </div>
-                        <div class="name-and-message" style="display:flex;flex-direction:column;">
-                            <span style="color:rgb(202, 201, 201);">'.$names_newarr[$x].'</span>
-                            <span style="color:gray;font-size:12px;">'.$message_newarr[$x].'</span>
-                        </div>
-                        
-                    </div>';
-            echo    '<div class="username" style="color:#fff;display:none;">'.$usernames_newarr[$x].'</div>';  
-            echo '</div>';
-        }
-        else {
-            echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">';
-            echo    '<img src="'.$avatars_newarr[$x].'" style="display:none;">';
-            echo    '<div class="this-user-name" style="display:none;">'.$names_newarr[$x].'</div>';
-            echo    '<div class="user" style="display:flex;flex-direction: row;align-items:center;">
-                        <div style="width:40px;height:40px;border-radius:50%;margin: 0 10px 0 0;">
-                            <img src="'.$avatars_newarr[$x].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-                        </div>
-                        <div class="name-and-message" style="display:flex;flex-direction:column;">
-                            <span style="color:rgb(202, 201, 201);">'.$names_newarr[$x].'</span>
-                            <span style="color:gray;font-size:12px;">'.$message_newarr[$x].'</span>
-                        </div>
-                        
-                    </div>';
-            echo    '<div class="username" style="color:#fff;display:none;">'.$usernames_newarr[$x].'</div>';  
-            echo '</div>';
-        }
+        echo '<div class="user-container" style="cursor:pointer;display:flex;justify-content:space-between;padding:5px 20px;">';
+        echo    '<img src="'.$avatars_newarr[$x].'" style="display:none;">';
+        echo    '<div class="this-user-name" style="display:none;">'.$names_newarr[$x].'</div>';
+        echo    '<div class="user" style="display:flex;flex-direction: row;align-items:center;">
+                    <div class="avatar '.$usernames_newarr[$x].'" style="width:40px;height:40px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
+                        <img src="'.$avatars_newarr[$x].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
+                    </div>
+                    <div class="name-and-message" style="display:flex;flex-direction:column;">
+                        <span style="color:rgb(202, 201, 201);">'.$names_newarr[$x].'</span>
+                        <span style="color:gray;font-size:12px;">'.$message_newarr[$x].'</span>
+                    </div>
+                    
+                </div>';
+        echo    '<div class="username" style="color:#fff;display:none;">'.$usernames_newarr[$x].'</div>';  
+        echo '</div>';
+        
     } 
     
     

@@ -17,7 +17,7 @@ if ($conn->connect_error) {
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-$sql = "SELECT name, username, password, status FROM Names WHERE username = '$username'";
+$sql = "SELECT name, username, password, status FROM Names WHERE username = '$username' AND password = '$password'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {

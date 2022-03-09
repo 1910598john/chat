@@ -20,11 +20,10 @@ $chosen = $_SESSION['chosen']; //chosen person username
 $user = $_SESSION['myusername']; //user's username
 $from = $_SESSION['from']; //sender name
 $myavatar = $_SESSION['myavatar']; //my avatar
-$status = $_SESSION['status'];
 $both_convo2 = $chosen.$user;
 
-$sql = "INSERT INTO ".$both_convo2."(avatar, message, messagefrom, sentby, sentto, status)
-VALUES('$myavatar', '$message', '$from', '$user', '$chosen', '$status')";
+$sql = "INSERT INTO ".$both_convo2."(avatar, message, messagefrom, sentby, sentto)
+VALUES('$myavatar', '$message', '$from', '$user', '$chosen')";
 
 
 if ($conn->query($sql) === TRUE ) {

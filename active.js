@@ -89,7 +89,7 @@ function start_chatting(user, avatar, name){
     <div class="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#1c1e21;top:0;left:0;">
         <div class="friend-avatar" style="border-radius:15px 15px 0 0;z-index:10;background-image:linear-gradient(rgba(28, 30, 33,0.7), rgba(28, 30, 33,0.5));padding: 10px 0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:95px;">
             <div class="return" id="return" style="position:absolute;left:7%;top:50%;transform:translateY(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-left-long" style="color:#fff;font-size:1.5em;"></i></div>
-            <div class="image" style="width:50px;height:50px;text-align:center;position:absolute;transform:translateX(-50%);left:50%;">
+            <div class="image ${user}" style="width:50px;height:50px;text-align:center;position:absolute;transform:translateX(-50%);left:50%;">
                 <img src="${avatar}" style="width:100%;border-radius:50%;height:100%;object-fit:cover;">
             </div>
             <div class="name" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);"><span style="font-weight:bold;color:#fff">${name}</span></div>
@@ -97,11 +97,31 @@ function start_chatting(user, avatar, name){
         <div id="message-wrapper" style="padding: 20px 0 40px 0;position:absolute;bottom:50px;width:calc(100% - 40px);max-height:calc(100% - 120px);overflow-y:scroll;">
             
         </div>
-        <div id="scroll-down" style="position: absolute;bottom:70px;left:50%;transformX(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-down" style="color:#000;font-size:1.2em;"></i></div>
+        <div id="scroll-down" style="position: absolute;bottom:70px;left:50%;transformX(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-down" style="color:#fff;font-size:1.2em;"></i></div>
         <div class="user-input" style="border-radius:0 0 15px 15px;z-index:10;background:transparent;position:absolute;bottom:0;left:0;width:100%;height:50px;">
             <input type="text" id="input" placeholder="Say something.." style="background:#1c1e21;caret-color:#42e9f5;color:#42e9f5;padding:7px 15px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
         </div>
     </div>`)
+    $.ajax({
+        type: 'POST',
+        url: 'get_status.php',
+        success: function(res){
+            let json = JSON.parse(res);
+            let names = json[0];
+            let usernames = json[1];
+            let status = json[2];
+            let parentElementToInsert = $(".image");
+            for (let i = 0; i < parentElementToInsert.length; i++) {
+                for (let j = 0; j < usernames.length; j++) {
+                    if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
+                        parentElementToInsert[i].insertAdjacentHTML("beforeend", `
+                        <div style="width:20px;height:20px;background:#199c31;border-radius:50%;position:absolute;left:65%;top:65%;border:2px solid #1c1e21;"></div>`)
+                    }
+                }
+            }
+            
+        }
+    })
     function scr() {
         $.ajax({
             type: 'POST',
@@ -157,13 +177,15 @@ function start_chatting(user, avatar, name){
     var int;
     function test(){
         int = setInterval(function(){
-            var req = new XMLHttpRequest();
-            req.onload = function(){
-                document.getElementById("message-wrapper").innerHTML = this.responseText;
-            }
-            req.open("GET", "retrieve.php");
-            req.send();
+            $.ajax({
+                type: 'POST',
+                url: 'retrieve.php',
+                success: function(res) {
+                    $("#message-wrapper").html(res);
+                }
+            })
         }, 100);
+        
     }
     test();
     

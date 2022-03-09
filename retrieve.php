@@ -37,7 +37,7 @@ if (!(empty($res))) {
             $font_color = '#050505';
             echo '  <div class="message-wrapper">
                 <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0;">
-                    <div style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;">
+                    <div class="avatar '.$row['sentby'].'" style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
                         <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                     </div>
                     <div style="max-width:50%;overflow-wrap:break-word;background:'.$bgc.';color:'.$font_color.';padding:10px;border-radius:10px;">'.$row['message'].'</div>

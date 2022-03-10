@@ -6,7 +6,7 @@ $_SESSION['bool'] = $bool;
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "convos";
+$database = "test";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

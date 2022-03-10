@@ -199,7 +199,7 @@ function start_chatting(user, avatar, name){
             $(".message-tab-content").remove();
             $('.active-people-content').remove();
             document.getElementById("container").insertAdjacentHTML("afterbegin", `
-            <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+            <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;padding:10px 0 0"></div>`);
             $.ajax({
                 type: 'POST',
                 url: 'active_people_content.php',
@@ -211,8 +211,9 @@ function start_chatting(user, avatar, name){
                         let avatar = $(this).children("img").attr("src");
                         start_chatting(username, avatar, name);
                     })
-                }   
+                }
             })
+            $("#active").html("ACTIVE");
         }
         else if ($(".list:nth-child(3)").hasClass("active")) {
             $(".groupchat-tab-content").remove();
@@ -507,7 +508,7 @@ document.getElementById("active").addEventListener("click", function(){
     
     if (t == 0) {
         document.getElementById("container").insertAdjacentHTML("afterbegin", `
-        <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+        <div class="active-people-content" id="active-people-content" style="padding:10px 0 0;width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
         $.ajax({
             type: 'POST',
             url: 'offline_people.php',
@@ -526,7 +527,7 @@ document.getElementById("active").addEventListener("click", function(){
     }
     else {
         document.getElementById("container").insertAdjacentHTML("afterbegin", `
-        <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+        <div class="active-people-content" id="active-people-content" style="padding:10px 0 0;width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
         $.ajax({
             type: 'POST',
             url: 'online_people.php',

@@ -31,7 +31,7 @@ if (($res->num_rows > 0) && (!empty($res))) {
             $font_color = '#050505';
             echo '  <div class="message-wrapper">
                     <div class="username" style="display:none;">'.$row['sentby'].'</div>
-                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:20px 0 20px 10px;">
+                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:20px 0 30px 10px;">
                         <div class="avatar '.$row['sentby'].'" style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
                             
                             <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">

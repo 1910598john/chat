@@ -10,8 +10,8 @@
     display: none;
 }
 ::selection{
-    color: #1c1e21;
-    background:rgb(202, 201, 201);
+    color: #fff;
+    background:#1c1e21;
 }
 :root{
     --dark: #1c1e21;

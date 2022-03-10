@@ -1,6 +1,9 @@
+var messagefrom; //me
+var myavatar; //self avatar
+var myname; //self name
 window.addEventListener("load", function(){
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
-    <div class="active-people-content" id="active-people-content"></div>`);
+    <div class="active-people-content" id="active-people-content" style="padding:10px 0 0;width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
     $.ajax({
         type: 'POST',
         url: 'active_people_content.php',
@@ -14,16 +17,6 @@ window.addEventListener("load", function(){
             })
         }
     })
-})
-
-
-var messagefrom; //me
-var myavatar; //my avatar
-var myname;
-var x;
-function start_chatting(user, avatar, name){
-    localStorage.setItem("user", user);
-    
     //get self avatar
     $.ajax({
         type: 'POST',
@@ -42,6 +35,13 @@ function start_chatting(user, avatar, name){
             localStorage.setItem("myname", myname);
         }
     })
+})
+
+var x;
+
+
+function start_chatting(user, avatar, name){
+    localStorage.setItem("user", user);
 
     $.ajax({
         type: 'POST',
@@ -68,7 +68,7 @@ function start_chatting(user, avatar, name){
             $(".message-tab-content").remove();
             $('.active-people-content').remove();
             document.getElementById("container").insertAdjacentHTML("afterbegin", `
-            <div class="message-tab-content" id="message-tab-content"></div>`);
+            <div class="message-tab-content" id="message-tab-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
             $.ajax({
                 type: 'POST',
                 url: 'message_tab_content.php',
@@ -146,32 +146,35 @@ function start_chatting(user, avatar, name){
 
     document.getElementById("input").addEventListener("keypress", function(event){
         if (event.keyCode === 13) {
-            var message = $("#input").val();
-            let user = localStorage.getItem("user"); //chosen person username..
-            $.ajax({
-                type: 'POST',
-                url: 'storeconvo.php',
-                data: { 
-                    message : message,
-                    avatar: myavatar, 
-                    user : user,
-                    messagefrom: messagefrom
-                },
-                success: function(){
-                    $.ajax({
-                        type: 'POST',
-                        url: 'messages.php',
-                        data: {
-                            message: message,
-                            avatar: myavatar,
-                            user: user,
-                            messagefrom: messagefrom
-                        }
-                    })
-                }
-            })
-            document.getElementById("input").value = "";
-            scr();
+            if (!(this.value.trim().length === 0)) {
+                var message = $("#input").val();
+                let user = localStorage.getItem("user"); //chosen person username..
+                $.ajax({
+                    type: 'POST',
+                    url: 'storeconvo.php',
+                    data: { 
+                        message : message,
+                        avatar: myavatar, 
+                        user : user,
+                        messagefrom: messagefrom
+                    },
+                    success: function(){
+                        $.ajax({
+                            type: 'POST',
+                            url: 'messages.php',
+                            data: {
+                                message: message,
+                                avatar: myavatar,
+                                user: user,
+                                messagefrom: messagefrom
+                            }
+                        })
+                    }
+                })
+                document.getElementById("input").value = "";
+                scr();
+            }
+            
         }
     })
     var int;
@@ -191,7 +194,66 @@ function start_chatting(user, avatar, name){
     
     document.getElementById("return").addEventListener("click", function(){
         $(".chat-wrapper").remove();
-        
+        if ($(".list:nth-child(1)").hasClass("active")) {
+            $(".groupchat-tab-content").remove();
+            $(".message-tab-content").remove();
+            $('.active-people-content').remove();
+            document.getElementById("container").insertAdjacentHTML("afterbegin", `
+            <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+            $.ajax({
+                type: 'POST',
+                url: 'active_people_content.php',
+                success: function(res){
+                    $("#active-people-content").append(res);
+                    $(".user-container").click(function(){
+                        let username = $(this).children("div.username").html();
+                        let name = $(this).children("div.this-user-name").html();
+                        let avatar = $(this).children("img").attr("src");
+                        start_chatting(username, avatar, name);
+                    })
+                }   
+            })
+        }
+        else if ($(".list:nth-child(3)").hasClass("active")) {
+            $(".groupchat-tab-content").remove();
+            $(".message-tab-content").remove();
+            $('.active-people-content').remove();
+            document.getElementById("container").insertAdjacentHTML("afterbegin", `
+            <div class="message-tab-content" id="message-tab-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+            $.ajax({
+                type: 'POST',
+                url: 'message_tab_content.php',
+                success: function(res){
+                    $("#message-tab-content").append(res);
+                    $(".user-container").click(function(){
+                        let username = $(this).children("div.username").html();
+                        let name = $(this).children("div.this-user-name").html();
+                        let avatar = $(this).children("img").attr("src");
+                        start_chatting(username, avatar, name);
+                    })
+                    //get status
+                    $.ajax({
+                        type: 'POST',
+                        url: 'get_status.php',
+                        success: function(res){
+                            let json = JSON.parse(res);
+                            let names = json[0];
+                            let usernames = json[1];
+                            let status = json[2];
+                            let parentElementToInsert = $(".avatar");
+                            for (let i = 0; i < parentElementToInsert.length; i++) {
+                                for (let j = 0; j < usernames.length; j++) {
+                                    if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
+                                        parentElementToInsert[i].insertAdjacentHTML("beforeend", `
+                                        <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>`)
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            })
+        }
         clearInterval(int);
     })
 }
@@ -206,15 +268,21 @@ $(".user-container").click(function(){
 
 //view this.user profile
 $(".profile").click(function(){
+
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="my-profile" id="my-profile" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
         <div id="return-from-self-profile" style="z-index:5;cursor:pointer;position:fixed;top:7%;left:7%;"><i class="fa-solid fa-arrow-left-long" style="color:#1c1e21;font-size:1.5em;"></i></div>
         <div id="settings" style="z-index:5;cursor:pointer;position:fixed;top:8%;right:7%;"><i class="fa-solid fa-gear" style="color:#1c1e21;font-size:1.5em;"></i></div>
         <div class="this-user-profile self-profile" id="this-user-profile" style="width:100%;height:200px;position:relative;box-shadow: 0 0 2px #000;">
-            <div class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
+            <div id="profile-wrapper" class="profile-wrapper" style="position:absolute;left:50%;top:80%;transform:translate(-50%, -80%);display:flex;flex-direction:column;height:140px;width:300px;">
                 <div class="myavatar" style="cursor:pointer;width:100px;height:100px;border:2px solid #fff;border-radius:50%;position:absolute;left:50%;transform:translateX(-50%);">
                     <img src="${localStorage.getItem("myavatar")}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
-                    <i class="fa-solid fa-user-ninja" style="padding:4px;color:#1c1e21;font-size:16px;background:rgb(202, 201, 201);border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
+                    <i class="fa-solid fa-user-ninja" style="padding:4px;color:#1c1e21;font-size:16px;background:#e3e3e3;border-radius:50%;position:absolute;top:75%;left:70%;border:1px solid #fff;"></i>
+                    
+                </div>
+                
+                <div class="change-avatar" style="z-index: 10;position:absolute;background:rgb(202, 201, 201);border-radius:7px;padding:7px;box-shadow:0 2px 5px rgba(28, 30, 31, .5);width:200px;height:45px;top:80%;left:50%;transform:translateX(-50%);">
+                    <div id="change-avatar" style="cursor:pointer;position:relative;border-radius:4px;width:100%;height:100%;color:#1c1e21;display:flex;justify-content:center;align-items:center;font-size:15px;font-weight:bold;"><i class="fa-solid fa-user-ninja" style="position:absolute;left:7%;border:1px solid #1c1e21;padding:2px;border-radius:4px;"></i><span>Change avatar</span></div>
                 </div>
                 <div class="this-user-name" id="myname" style="text-align:center;padding:10px;width:200px;position:absolute;bottom:0;width:100%;"><span style="color:#1c1e21;font-weight:bold;">${localStorage.getItem("myname")}</span></div>
             </div>
@@ -226,6 +294,18 @@ $(".profile").click(function(){
             </div>
         </div>
     </div>`);
+    $(".change-avatar").hide();
+    $(".myavatar").click(function(){
+        $(".change-avatar").toggle();
+    })
+    $("#change-avatar").mouseover(function(){
+        $(this).css("background", "rgba(255,255,255,0.5");
+    })
+    $("#change-avatar").mouseout(function(){
+        $(this).css("background", "rgb(202, 201, 201)");
+    })
+
+    
     //add link
     $("button#add-link").click(function(){
         document.getElementById("my-profile").insertAdjacentHTML("afterbegin", `
@@ -337,7 +417,7 @@ document.getElementById("message-tab").addEventListener("click", function(event)
     $('.active-people-content').remove();
     $(".groupchat-tab-content").remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
-    <div class="message-tab-content" id="message-tab-content"></div>`);
+    <div class="message-tab-content" id="message-tab-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
     $.ajax({
         type: 'POST',
         url: 'message_tab_content.php',
@@ -363,7 +443,7 @@ document.getElementById("message-tab").addEventListener("click", function(event)
                         for (let j = 0; j < usernames.length; j++) {
                             if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
                                 parentElementToInsert[i].insertAdjacentHTML("beforeend", `
-                                <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>`)
+                                <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:65%;top:60%;border:2px solid #1c1e21;"></div>`)
                             }
                         }
                     }
@@ -381,7 +461,9 @@ document.getElementById("group-chat").addEventListener("click", function(){
     $(".message-tab-content").remove();
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
-    <div class="groupchat-tab-content" id="groupchat-tab-content"></div>`);
+    <div class="groupchat-tab-content" id="groupchat-tab-content" style="width:100%;height:100%;border-top:10px solid #1c1e21;border-radius:10px;overflow-y:scroll;">
+        
+    </div>`);
     //fetch groupchat messages
     $.ajax({
         type: 'POST',
@@ -402,7 +484,7 @@ document.getElementById("group-chat").addEventListener("click", function(){
                         for (let j = 0; j < usernames.length; j++) {
                             if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
                                 parentElementToInsert[i].insertAdjacentHTML("beforeend", `
-                                <div style="width:15px;height:15px;background:#199c31;border-radius:50%;position:absolute;left:65%;top:60%;border:2px solid #1c1e21;"></div>`)
+                                <div style="width:15px;height:15px;background:#199c31;border-radius:50%;position:absolute;left:60%;top:60%;border:2px solid #1c1e21;"></div>`)
                             }
                         }
                     }
@@ -416,25 +498,50 @@ document.getElementById("group-chat").addEventListener("click", function(){
 
 
 //active people tab
+let t = 0;
 document.getElementById("active").addEventListener("click", function(){
     $("#container").css("border-radius", "0 10px 10px 10px");
     $(".message-tab-content").remove();
     $('.active-people-content').remove();
     $(".groupchat-tab-content").remove();
-    document.getElementById("container").insertAdjacentHTML("afterbegin", `
-    <div class="active-people-content" id="active-people-content"></div>`);
-    $.ajax({
-        type: 'POST',
-        url: 'active_people_content.php',
-        success: function(res){
-            $("#active-people-content").append(res);
-            $(".user-container").click(function(){
-                let username = $(this).children("div.username").html();
-                let name = $(this).children("div.this-user-name").html();
-                let avatar = $(this).children("img").attr("src");
-                start_chatting(username, avatar, name);
-            })
-        }
-    })
+    
+    if (t == 0) {
+        document.getElementById("container").insertAdjacentHTML("afterbegin", `
+        <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+        $.ajax({
+            type: 'POST',
+            url: 'offline_people.php',
+            success: function(res){
+                $("#active-people-content").append(res);
+                $(".user-container").click(function(){
+                    let username = $(this).children("div.username").html();
+                    let name = $(this).children("div.this-user-name").html();
+                    let avatar = $(this).children("img").attr("src");
+                    start_chatting(username, avatar, name);
+                })
+            }
+        })
+        this.innerHTML = "OFFLINE";
+        t = 1;
+    }
+    else {
+        document.getElementById("container").insertAdjacentHTML("afterbegin", `
+        <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:15px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+        $.ajax({
+            type: 'POST',
+            url: 'online_people.php',
+            success: function(res){
+                $("#active-people-content").append(res);
+                $(".user-container").click(function(){
+                    let username = $(this).children("div.username").html();
+                    let name = $(this).children("div.this-user-name").html();
+                    let avatar = $(this).children("img").attr("src");
+                    start_chatting(username, avatar, name);
+                })
+                
+            }
+        })
+        this.innerHTML = "ONLINE";
+        t = 0;
+    }
 })
-

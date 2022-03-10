@@ -18,7 +18,7 @@ $alignment = null;
 $bgc = null;
 $font_color = null;
 
-$sql = "SELECT id, avatar, message, sentby FROM groupchat";
+$sql = "SELECT id, avatar, message, sendername, sentby FROM groupchat";
 $res = $conn->query($sql);
 
 
@@ -31,12 +31,14 @@ if (($res->num_rows > 0) && (!empty($res))) {
             $font_color = '#050505';
             echo '  <div class="message-wrapper">
                     <div class="username" style="display:none;">'.$row['sentby'].'</div>
-                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 0 10px 10px;">
+                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:20px 0 20px 10px;">
                         <div class="avatar '.$row['sentby'].'" style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
+                            
                             <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                             
                         </div>
-                        <div style="max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;">'.$row['message'].'</div>
+                        
+                        <div style="position:relative;max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;"><span style="width:135px;color:rgb(202, 201, 201);font-size:11px;position:absolute;bottom:calc(100% + 3px);left:20px;">'.$row['sendername'].'</span>'.stripslashes($row['message']).'</div>
                     </div>
                 </div>';
         }
@@ -45,7 +47,7 @@ if (($res->num_rows > 0) && (!empty($res))) {
             $bgc = '#1877f2';
             $font_color = '#fff';
             echo '  <div class="message-wrapper">
-                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:10px 10px 10px 0;">
+                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:15px 10px 15px 0;">
                         <div style="max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;">'.$row['message'].'</div>
                     </div>
                 </div>';

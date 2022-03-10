@@ -15,8 +15,8 @@ if ($conn->connect_error) {
 }
 
 
-$message = $_POST['message']; //message
-$_SESSION['message'] = $_POST['message']; //store in a cookie
+$message = addslashes($_POST['message']); //message
+$_SESSION['message'] = addslashes($_POST['message']); //store in a cookie
 $chosen = $_POST['user']; //chosen person username
 $_SESSION['chosen'] = $_POST['user']; //store chosen person username
 $user = $_SESSION['myusername']; //user's username

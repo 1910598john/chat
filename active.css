@@ -80,14 +80,12 @@ body{
 .main-wrapper .container{
     background: #1c1e21;
     height: calc(100% - 60px);
-    overflow-y: scroll;
-    padding: 20px 0 10px;
     border-radius: 0 10px 10px 10px;
-    overflow-y: scroll;
 }
 .user-container:hover{
-    background: rgb(129, 125, 125);
+    background: #000;
 }
+
 
 .my-profile .link{
     width:100%;
@@ -105,3 +103,4 @@ body{
 .my-profile .link:hover{
     box-shadow: 0 0 5px #1c1e21;
 }
+

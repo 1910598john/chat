@@ -15,14 +15,13 @@
         <div class="profile" style="text-align:right;"><i class="fa-solid fa-user" style="cursor:pointer;font-size:1.2em;color:rgb(51, 50, 50)"></i></div>
         <div class="main-wrapper">
             <div class="inner">
-                <div class="list online active-people active" id="active">ONLINE</div>
+                <div class="list online active-people active" id="active">ACTIVE</div>
                 <div class="list group-chat inactive" id="group-chat">GROUP CHAT</div>
                 <div class="list message-tab inactive" id="message-tab" style="position:relative;">
                     <i class="fa-brands fa-facebook-messenger" style="position:absolute;font-size:1.8em;top:50%;left:50%;transform:translate(-50%,-50%);"><div id="message-notif" style="display:none;border-radius:50%;background:red;position:absolute;left:60%;bottom:60%;font-size:11px;width:17px;height:17px;padding:2px 4px;color:rgb(202, 201, 201);">0</div></i>
                 </div>
             </div>
-            <div class="container" id="container">
-                    
+            <div class="container" id="container" style="position:relative;">
             </div>
         </div>
     </div>

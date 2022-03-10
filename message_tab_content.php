@@ -51,9 +51,9 @@ if ($res->num_rows > 0) {
                     <div class="avatar '.$usernames_newarr[$x].'" style="width:40px;height:40px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
                         <img src="'.$avatars_newarr[$x].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                     </div>
-                    <div class="name-and-message" style="display:flex;flex-direction:column;">
-                        <span style="color:rgb(202, 201, 201);">'.$names_newarr[$x].'</span>
-                        <span style="color:gray;font-size:12px;">'.$message_newarr[$x].'</span>
+                    <div class="name-and-message" style="display:flex;flex-direction:column;overflow:hidden;max-width:100%;max-height:45px;">
+                        <span style="color:#fff;width:200px;">'.$names_newarr[$x].'</span>
+                        <span style="color:gray;font-size:12px;max-width:50%;overflow:hidden;">'.$message_newarr[$x].'</span>
                     </div>
                     
                 </div>';

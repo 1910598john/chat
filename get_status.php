@@ -1,8 +1,8 @@
 <?php
 session_start();
-$servername = "localhost";
+$servername = "192.168.1.6";
 $uname = "root";
-$password = "";
+$password = "root";
 $database = 'test';
 
 // Create connection

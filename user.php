@@ -2,9 +2,9 @@
 session_start();
 $_SESSION['myname'] = $_POST['name'];
 
-$servername = "localhost";
+$servername = "192.168.1.6";
 $username = "root";
-$password = "";
+$password = "root";
 $database = 'test';
 
 // Create connection

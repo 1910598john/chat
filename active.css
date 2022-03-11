@@ -8,8 +8,9 @@
 }
 ::selection{
     color: #fff;
-    background:#1c1e21;
+    background:rgb(0, 174, 255);
 }
+
 ::-webkit-scrollbar{
     display: none;
 }

@@ -269,7 +269,9 @@ $(".user-container").click(function(){
 
 //view this.user profile
 $(".profile").click(function(){
-
+    $(".groupchat-tab-content").remove();
+    $(".message-tab-content").remove();
+    $('.active-people-content').remove();
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
     <div class="my-profile" id="my-profile" style="border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:rgb(202, 201, 201);top:0;left:0;">
         <div id="return-from-self-profile" style="z-index:5;cursor:pointer;position:fixed;top:7%;left:7%;"><i class="fa-solid fa-arrow-left-long" style="color:#1c1e21;font-size:1.5em;"></i></div>
@@ -462,8 +464,8 @@ document.getElementById("group-chat").addEventListener("click", function(){
     $(".message-tab-content").remove();
     $('.active-people-content').remove();
     document.getElementById("container").insertAdjacentHTML("afterbegin", `
-    <div class="groupchat-tab-content" id="groupchat-tab-content" style="width:100%;height:100%;border-top:10px solid #1c1e21;border-radius:10px;overflow-y:scroll;">
-        
+    <div class="groupchat-tab-content" id="groupchat-tab-content" style="width:100%;height:100%;border-top:10px solid #1c1e21;border-radius:10px;overflow-y:scroll;position:relative;">
+        <button id="join" style="opacity:0;position:fixed;width:calc(100% - 120px);cursor:pointer;padding:7px;left:50%;transform:translateX(-50%);bottom:10%;z-index:5;background:rgb(0, 174, 255);color:#fff;font-weight:bold;border:1px solid transparent;border-radius:5px;">Join the fun</button>
     </div>`);
     //fetch groupchat messages
     $.ajax({
@@ -492,6 +494,24 @@ document.getElementById("group-chat").addEventListener("click", function(){
                     
                 }
             })
+            $(".message-wrapper").hide();
+            
+            let message_wrapper = document.getElementsByClassName("message-wrapper");
+            let count = 0;
+            for (let i = 0; i < message_wrapper.length; i++) {
+                setTimeout(function(){
+                    message_wrapper[i].style.display = "block";
+                    message_wrapper[i].scrollIntoView();
+                    if (i == 0) {
+                        $("#join").css({
+                            "opacity" : "1",
+                            "transition" : "opacity .5s"
+                        });
+                    }
+                }, count);
+                count += 1500
+                
+            }
         }
     })
     

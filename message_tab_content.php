@@ -61,7 +61,9 @@ if ($res->num_rows > 0) {
         echo '</div>';
         
     } 
-    
+}
+else {
+    echo '<div id="no-messages" style="color:rgb(202, 201, 201);padding:10px 0;text-align:center;margin-top:10px;">There is nothing to see here.</div>';
     
 }
 $conn->close();

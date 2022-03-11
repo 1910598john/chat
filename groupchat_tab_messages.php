@@ -30,17 +30,17 @@ if (($res->num_rows > 0) && (!empty($res))) {
             $bgc = '#E4E6EB';
             $font_color = '#050505';
             echo '  <div class="message-wrapper">
-                    <div class="username" style="display:none;">'.$row['sentby'].'</div>
-                    <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:20px 0 30px 10px;">
-                        <div class="avatar '.$row['sentby'].'" style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
+                        <div class="username" style="display:none;">'.$row['sentby'].'</div>
+                            <div id="message'.$row['id'].'" class="message '.$row['sentby'].'" style="align-items:center;display:flex;'.$alignment.';margin:20px 0 30px 10px;">
+                            <div class="avatar '.$row['sentby'].'" style="width:30px;height:30px;border-radius:50%;margin: 0 10px 0 0;position:relative;">
                             
                             <img src="'.$row['avatar'].'" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">
                             
                         </div>
                         
-                        <div style="position:relative;max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;"><span style="width:135px;color:rgb(202, 201, 201);font-size:11px;position:absolute;bottom:calc(100% + 3px);left:20px;">'.$row['sendername'].'</span>'.stripslashes($row['message']).'</div>
-                    </div>
-                </div>';
+                        <div style="position:relative;max-width:37%;overflow-wrap:break-word;background:'.$bgc.';font-size:13px;color:'.$font_color.';padding:7px;border-radius:10px;"><span style="width:135px;color:rgb(202, 201, 201);font-size:11px;position:absolute;bottom:calc(100% + 3px);left:10px;">'.$row['sendername'].'</span>'.stripslashes($row['message']).'</div>
+                        </div>
+                    </div>';
         }
         else {
             $alignment = 'justify-content: flex-end';
@@ -52,8 +52,13 @@ if (($res->num_rows > 0) && (!empty($res))) {
                     </div>
                 </div>';
         }
+        $_SESSION['gc_lastId'] = $row['id'];
         
     }
+}
+else {
+    echo '<div id="no-gc-messages" style="color:rgb(202, 201, 201);padding:10px 0;margin-top:10px;text-align:center;">There is nothing to see here.</div>';
+    echo '<button id="join" style="position:fixed;width:calc(100% - 120px);cursor:pointer;padding:7px;left:50%;transform:translateX(-50%);bottom:10%;z-index:5;background:rgb(0, 174, 255);color:#fff;font-weight:bold;border:1px solid transparent;border-radius:5px;">Start the fun.</button>';
 }
 
 

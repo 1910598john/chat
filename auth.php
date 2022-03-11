@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = 'test';
+$servername = "sql108.epizy.com";
+$username = "epiz_31214209";
+$password = "8XgUo6PEhYV1N";
+$database = 'epiz_31214209_mydb';
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

@@ -2,10 +2,10 @@
 session_start();
 $_SESSION['myname'] = $_POST['name'];
 
-$servername = "192.168.1.6";
-$username = "root";
-$password = "root";
-$database = 'test';
+$servername = "sql108.epizy.com";
+$username = "epiz_31214209";
+$password = "8XgUo6PEhYV1N";
+$database = 'epiz_31214209_mydb';
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);

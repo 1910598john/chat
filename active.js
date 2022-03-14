@@ -444,20 +444,6 @@ document.getElementById("refresh").addEventListener("click", function(){
     location.reload();
 })
 
-var interv;
-function start_notification(){
-    interv = setInterval(new_messages, 100);
-    function new_messages(){
-        $.ajax({
-            type: 'GET',
-            url: 'message_notif.php',
-            success: function(res){
-                $("#message-notif").html(res);
-                
-            }
-        })
-    }
-}
 setInterval(() => {
     $.ajax({
         type: 'POST',
@@ -465,16 +451,29 @@ setInterval(() => {
         success: function(res){
             x = parseInt(res);
             if (x > 0) {
-                start_notification();
                 $("#message-notif").css("display", "block");
             }
             else {
                 $("#message-notif").css("display", "none");
-                clearInterval(interv);
             }
         }
     })
 }, 100);
+
+var interv;
+function start_notification(){
+    interv = setInterval(new_messages, 100);
+    function new_messages(){
+        let req = new XMLHttpRequest();
+        req.onload = function(){
+            document.getElementById("message-notif").innerHTML = this.responseText;
+        }
+        req.open("GET", "message_notif.php");
+        req.send();
+    }
+}
+
+start_notification();
 
 
 //change styles when click

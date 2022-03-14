@@ -1,4 +1,4 @@
-var messagefrom; //me
+var messagefrom; //user
 var myavatar; //self avatar
 var myname; //self name
 window.addEventListener("load", function(){
@@ -86,7 +86,7 @@ function start_chatting(user, avatar, name){
     })
     
     document.getElementById("main").insertAdjacentHTML("afterbegin", `
-    <div class="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#1c1e21;top:0;left:0;">
+    <div class="chat-wrapper" id="chat-wrapper" style="overflow-y:auto;padding:20px;border-radius:15px;z-index:5;position:absolute;width:100%;height:100%;background:#1c1e21;top:0;left:0;">
         <div class="friend-avatar" style="border-radius:15px 15px 0 0;z-index:10;background-image:linear-gradient(rgba(28, 30, 33,0.7), rgba(28, 30, 33,0.5));padding: 10px 0;position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:95px;">
             <div class="return" id="return" style="position:absolute;left:7%;top:50%;transform:translateY(-50%);cursor:pointer;"><i class="fa-solid fa-arrow-left-long" style="color:#fff;font-size:1.5em;"></i></div>
             <div class="image ${user}" style="width:50px;height:50px;text-align:center;position:absolute;transform:translateX(-50%);left:50%;">
@@ -102,6 +102,12 @@ function start_chatting(user, avatar, name){
             <input type="text" id="input" placeholder="Say something.." style="background:#1c1e21;caret-color:#42e9f5;color:#42e9f5;padding:7px 15px;font-size:.9em;width:calc(100% - 40px);position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);border-radius:4px;border:1px solid gray;">
         </div>
     </div>`)
+    
+    let elem = document.getElementById("message-wrapper").scrollTop;
+    if (elem.scrollTop) {
+         alert('yawa');
+    }
+    
     $.ajax({
         type: 'POST',
         url: 'get_status.php',
@@ -140,7 +146,12 @@ function start_chatting(user, avatar, name){
             success: function(response){
                 let id = parseInt(response);
                 document.getElementById("message" + id).scrollIntoView();
+                
             }
+        })
+        $(this).css({
+            "opacity" : "0",
+            "transition" : "opacity .5s"
         })
     })
 
@@ -339,7 +350,7 @@ $(".profile").click(function(){
             
         })
     })
-    //return
+    
     setInterval(function(){
         let count_links = document.getElementsByClassName("link").length;
         if (count_links == 3) {
@@ -350,6 +361,67 @@ $(".profile").click(function(){
 
     document.getElementById("return-from-self-profile").addEventListener("click", function(){
         this.parentElement.remove();
+        if ($(".list:nth-child(1)").hasClass("active")) {
+            $(".groupchat-tab-content").remove();
+            $(".message-tab-content").remove();
+            $('.active-people-content').remove();
+            document.getElementById("container").insertAdjacentHTML("afterbegin", `
+            <div class="active-people-content" id="active-people-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;padding:10px 0 0"></div>`);
+            $.ajax({
+                type: 'POST',
+                url: 'active_people_content.php',
+                success: function(res){
+                    $("#active-people-content").append(res);
+                    $(".user-container").click(function(){
+                        let username = $(this).children("div.username").html();
+                        let name = $(this).children("div.this-user-name").html();
+                        let avatar = $(this).children("img").attr("src");
+                        start_chatting(username, avatar, name);
+                    })
+                }
+            })
+            $("#active").html("ACTIVE");
+        }
+        else if ($(".list:nth-child(3)").hasClass("active")) {
+            $(".groupchat-tab-content").remove();
+            $(".message-tab-content").remove();
+            $('.active-people-content').remove();
+            document.getElementById("container").insertAdjacentHTML("afterbegin", `
+            <div class="message-tab-content" id="message-tab-content" style="width:100%;height:100%;border-radius:10px;border-top:10px solid #1c1e21;overflow-y:scroll;"></div>`);
+            $.ajax({
+                type: 'POST',
+                url: 'message_tab_content.php',
+                success: function(res){
+                    $("#message-tab-content").append(res);
+                    $(".user-container").click(function(){
+                        let username = $(this).children("div.username").html();
+                        let name = $(this).children("div.this-user-name").html();
+                        let avatar = $(this).children("img").attr("src");
+                        start_chatting(username, avatar, name);
+                    })
+                    //get status
+                    $.ajax({
+                        type: 'POST',
+                        url: 'get_status.php',
+                        success: function(res){
+                            let json = JSON.parse(res);
+                            let names = json[0];
+                            let usernames = json[1];
+                            let status = json[2];
+                            let parentElementToInsert = $(".avatar");
+                            for (let i = 0; i < parentElementToInsert.length; i++) {
+                                for (let j = 0; j < usernames.length; j++) {
+                                    if ($(parentElementToInsert[i]).hasClass(usernames[j]) && status[j] == "online") {
+                                        parentElementToInsert[i].insertAdjacentHTML("beforeend", `
+                                        <div style="width:18px;height:18px;background:#199c31;border-radius:50%;position:absolute;left:70%;top:60%;border:2px solid #1c1e21;"></div>`)
+                                    }
+                                }
+                            }
+                        }
+                    })
+                }
+            })
+        }
     })
 })
 //update status to offline
@@ -372,6 +444,20 @@ document.getElementById("refresh").addEventListener("click", function(){
     location.reload();
 })
 
+var interv;
+function start_notification(){
+    interv = setInterval(new_messages, 100);
+    function new_messages(){
+        $.ajax({
+            type: 'GET',
+            url: 'message_notif.php',
+            success: function(res){
+                $("#message-notif").html(res);
+                
+            }
+        })
+    }
+}
 setInterval(() => {
     $.ajax({
         type: 'POST',
@@ -379,29 +465,17 @@ setInterval(() => {
         success: function(res){
             x = parseInt(res);
             if (x > 0) {
+                start_notification();
                 $("#message-notif").css("display", "block");
             }
             else {
                 $("#message-notif").css("display", "none");
+                clearInterval(interv);
             }
         }
     })
 }, 100);
 
-var interv;
-function start_notification(){
-    interv = setInterval(new_messages, 100);
-    function new_messages(){
-        let req = new XMLHttpRequest();
-        req.onload = function(){
-            document.getElementById("message-notif").innerHTML = this.responseText;
-        }
-        req.open("GET", "message_notif.php");
-        req.send();
-    }
-}
-
-start_notification();
 
 //change styles when click
 $(".list").click(function(){

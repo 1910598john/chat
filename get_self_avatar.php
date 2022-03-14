@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 
 $user = $_SESSION['myusername'];
 
-$sql = "SELECT avatar, username FROM Names";
+$sql = "SELECT avatar, username FROM names";
 $res = $conn->query($sql);
 
 if ($res->num_rows > 0) {

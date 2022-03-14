@@ -28,7 +28,7 @@ document.getElementById("register-confirm").addEventListener("click", function()
             url: 'register.php',
             data: {
                 name: name,
-                username: username,
+                username: username.toLowerCase(),
                 password: password
             },
             success: function(response){

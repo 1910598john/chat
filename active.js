@@ -476,8 +476,6 @@ setInterval(() => {
     })
 }, 100);
 
-<<<<<<< HEAD
-=======
 var interv;
 function start_notification(){
     interv = setInterval(new_messages, 100);
@@ -494,7 +492,6 @@ function start_notification(){
 start_notification();
 
 
->>>>>>> testbranch
 //change styles when click
 $(".list").click(function(){
     $(".list").removeClass("active");
